@@ -11,7 +11,7 @@
 3. 打包
 ```npm run build```
 4. 启动服务器
-```npm run serve```
+```npm run start```
 ## 项目依赖
 
 ```
