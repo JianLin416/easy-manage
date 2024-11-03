@@ -2,14 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 启用tailwind */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* 设置最小宽高 */
 body {
-    min-width: 1440px !important;
-    min-height: 810px !important;
+  min-width: 1440px !important;
+  min-height: 810px !important;
+}
+
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  all: unset;
 }
