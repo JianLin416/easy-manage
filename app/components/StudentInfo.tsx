@@ -1,9 +1,7 @@
-const StudentInfo = () => {
+export default function StudentInfo() {
   return (
     <>
       This is StudentInfo
     </>
   )
 }
-
-export default StudentInfo

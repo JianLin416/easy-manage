@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "@/public/globals.css";
 import Header from "./components/Header";
-import React from "react";
-import Home from "./components/Home";
+import React from "react"
 
 export const metadata: Metadata = {
   title: "easyManage",
@@ -17,10 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-gray-200 text-neutral-950 font-semibold">
+      <body className="bg-gray-200 text-neutral-950">
         <Header />
         <div className="w-10/12 mx-auto flex p-5">
-          <Home children={children} />
+          {children}
         </div>
       </body>
     </html>
