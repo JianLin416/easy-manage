@@ -2,9 +2,9 @@
 
 import React, { Suspense, useState } from "react"
 
-const ClassInfo = React.lazy(() => import('./classInfo/index'))
-const StudentInfo = React.lazy(() => import('./studentInfo/index'))
-const TeacherInfo = React.lazy(() => import('./teacherInfo/index'))
+const ClassInfo = React.lazy(() => import('./components/classInfo/index'))
+const StudentInfo = React.lazy(() => import('./components/studentInfo/index'))
+const TeacherInfo = React.lazy(() => import('./components/teacherInfo/index'))
 
 export default function Page() {
   const [clicked, setClicked] = useState('')  // 存储点击的按钮类型

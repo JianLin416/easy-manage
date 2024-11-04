@@ -16,7 +16,6 @@
 
 ```
   1. tailwind css
-  2. @svgr/webpack => turn svg into components
 ```
 ## 项目概览
 待完成
