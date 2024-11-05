@@ -46,7 +46,7 @@ CREATE TABLE Student (
     student_name VARCHAR(50) NOT NULL,
     student_gender ENUM('男', '女') NOT NULL,      -- 性别
     student_phone VARCHAR(20) CHECK (student_phone REGEXP '^[0-9]+$'),
-    student_birth DATE CHECK (student_birth <= CURDATE()),
+    student_birth DATE,
     student_home VARCHAR(100),
     student_comes VARCHAR(50),
     student_number INT NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE Student (
 
 -- 创建 Teacher 表
 CREATE TABLE Teacher (
-		teacher_id INT AUTO_INCREMENT PRIMARY KEY,
+	teacher_id INT AUTO_INCREMENT PRIMARY KEY,
     teacher_name VARCHAR(50),         						-- 教师名称
     hire_date DATE NOT NULL,                      -- 入职时间
     teacher_department VARCHAR(20) NOT NULL,      -- 系部
