@@ -33,6 +33,13 @@ export default function Page() {
     <div>
       <a onClick={() => handleClick('A')}>课程管理</a>
       <a className="mx-10" onClick={() => handleClick('B')}>学生管理</a>
+			<a className="mr-10" onClick={() => {
+				fetch("/api/student/getStudent")
+					.then((response) => response.json())
+					.then((data) => {
+						console.log(data)
+					})
+			}}>hit me</a>
       <a onClick={() => handleClick('C')}>教师管理</a>
 
       {isOpen && (
