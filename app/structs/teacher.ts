@@ -1,8 +1,8 @@
 interface Teacher {
-  tname: string // 教师名称
-  tintime: string // 入职时间
-  tdepartment: string // 系部
-  tcourses: string[] // 所教课程
-  ttitle: string // 职称
-  tjob: string // 职位
+	teacher_id: number
+  teacher_name: string // 教师名称
+  hire_date: string // 入职时间
+  teacher_department: string // 系部
+  teacher_title: string // 职称
+  teacher_job: string // 职位
 }
