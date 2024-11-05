@@ -1,4 +1,4 @@
-interface Student {
+export default interface Student {
 	student_id: number
   student_name: string // 学生姓名
   student_gender: string // 学生性别

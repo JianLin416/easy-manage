@@ -1,4 +1,4 @@
-interface Teacher {
+export default interface Teacher {
 	teacher_id: number
   teacher_name: string // 教师名称
   hire_date: string // 入职时间

@@ -1,4 +1,4 @@
-interface Class {
+export default interface Class {
 	class_id: number
   class_name: string // 班级编号
   class_students: number // 班级人数
