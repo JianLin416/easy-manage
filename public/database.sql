@@ -49,7 +49,7 @@ CREATE TABLE Student (
     student_birth DATE,                                 -- 学生生日
     student_home VARCHAR(100),                          -- 学生住址
     student_comes VARCHAR(50),                          -- 学生生源
-    student_number INT NOT NULL,                        -- 学生学号
+    student_number varchar(20) NOT NULL,                -- 学生学号
     student_department VARCHAR(20) NOT NULL,            -- 学生系部
     student_major VARCHAR(20) NOT NULL,                 -- 学生专业
     class_id INT,
