@@ -33,6 +33,7 @@
 ```
   1. tailwind
   2. prisma
+  3. axios
 ```
 
 ## 项目概览

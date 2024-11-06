@@ -52,9 +52,9 @@ CREATE TABLE Student (
     student_number varchar(20) NOT NULL,                -- 学生学号
     student_department VARCHAR(20) NOT NULL,            -- 学生系部
     student_major VARCHAR(20) NOT NULL,                 -- 学生专业
-    class_id INT,
-    FOREIGN KEY (class_id) REFERENCES Class(class_id) ON DELETE SET NULL,
-    UNIQUE (class_id, student_number),
+    class_name VARCHAR(20),
+    FOREIGN KEY (class_name) REFERENCES Class(class_name) ON DELETE SET NULL,
+    UNIQUE (class_name, student_number),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -88,7 +88,7 @@ FOR EACH ROW
 BEGIN
     UPDATE Class
     SET class_students = class_students + 1
-    WHERE class_id = NEW.class_id;
+    WHERE class_name = NEW.class_name;
 END;
 
 -- 删除学生后更新班级人数
@@ -98,5 +98,5 @@ FOR EACH ROW
 BEGIN
     UPDATE Class
     SET class_students = class_students - 1
-    WHERE class_id = OLD.class_id;
+    WHERE class_name = OLD.class_name;
 END;

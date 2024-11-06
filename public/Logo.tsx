@@ -7,7 +7,7 @@ const Logo = ({ height }: { height: number }) => {
   return (
     <svg width={widthPx} height={heightPx} viewBox="0 0 569 512" version="1.1" xmlns="http://www.w3.org/2000/svg"
     >
-      <title>React-Logo-Filled (1)</title>
+      <title>React-Logo</title>
       <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="React-Logo-Filled-(1)" fill="#087EA4" fillRule="nonzero">
           <path
