@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import prisma from "@/app/api/prisma";
+import prisma from "@/app/api/prisma"
 
 /**
  * 通过名字或学号查询学生信息
@@ -9,7 +9,15 @@ import prisma from "@/app/api/prisma";
  * {
  *   status: 'error' || 'success',
  *   code: 200,
- *   data: {student},
+ *   data: {
+ *     students,
+ *     pagination: {
+ *       totalStudents, // 学生总数
+ *       totalPages, // 总页数
+ *       currentPage: page, // 当前页
+ *       limit // 单页显示量
+ *     }
+ *   },
  *   errors: 'no such student' || null,
  *   message: 'Cannot find this student in database' || 'Successfully find the student in database',
  * }
@@ -42,16 +50,23 @@ export async function GET(request: NextRequest) {
 }
 
 async function checkByName(name: string) {
-  const student = await prisma.student.findMany({
+  const students = await prisma.student.findMany({
     where: {
       student_name: name
     }
   })
-  if (student.length < 1) {
+  if (students.length < 1) {
     return NextResponse.json({
       status: 'error',
       code: 200,
-      data: {},
+      data: {
+        pagination: {
+          totalStudents: 0,
+          totalPages: 1,
+          currentPage: 1,
+          limit: 0
+        }
+      },
       errors: 'no such student',
       message: 'Cannot find this student in database'
     })
@@ -60,7 +75,15 @@ async function checkByName(name: string) {
     return NextResponse.json({
       status: 'success',
       code: 200,
-      data: { student },
+      data: {
+        students,
+        pagination: {
+          totalStudents: 0,
+          totalPages: 1,
+          currentPage: 1,
+          limit: 0
+        }
+      },
       errors: null,
       message: 'Successfully find the student in database',
     })
@@ -69,16 +92,23 @@ async function checkByName(name: string) {
 }
 
 async function checkByNumber(number: string) {
-  const student = await prisma.student.findMany({
+  const students = await prisma.student.findMany({
     where: {
       student_number: number
     }
   })
-  if (student.length < 1) {
+  if (students.length < 1) {
     return NextResponse.json({
       status: 'error',
       code: 200,
-      data: {},
+      data: {
+        pagination: {
+          totalStudents: 0,
+          totalPages: 1,
+          currentPage: 1,
+          limit: 0
+        }
+      },
       errors: 'no such student',
       message: 'Cannot find this student in database'
     })
@@ -87,7 +117,15 @@ async function checkByNumber(number: string) {
     return NextResponse.json({
       status: 'success',
       code: 200,
-      data: { student },
+      data: {
+        students,
+        pagination: {
+          totalStudents: 0,
+          totalPages: 1,
+          currentPage: 1,
+          limit: 0
+        }
+      },
       errors: null,
       message: 'Successfully find the student in database',
     })
@@ -95,17 +133,24 @@ async function checkByNumber(number: string) {
 }
 
 async function checkBy2(name: string, number: string) {
-  const student = await prisma.student.findMany({
+  const students = await prisma.student.findMany({
     where: {
       student_name: name,
       student_number: number
     }
   })
-  if (student.length < 1) {
+  if (students.length < 1) {
     return NextResponse.json({
       status: 'error',
       code: 200,
-      data: {},
+      data: {
+        pagination: {
+          totalStudents: 0,
+          totalPages: 1,
+          currentPage: 1,
+          limit: 0
+        }
+      },
       errors: 'no such student',
       message: 'Cannot find this student in database'
     })
@@ -114,7 +159,15 @@ async function checkBy2(name: string, number: string) {
     return NextResponse.json({
       status: 'success',
       code: 200,
-      data: { student },
+      data: {
+        students,
+        pagination: {
+          totalStudents: 0,
+          totalPages: 1,
+          currentPage: 1,
+          limit: 0
+        }
+      },
       errors: null,
       message: 'Successfully find the student in database',
     })
