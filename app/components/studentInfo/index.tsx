@@ -68,7 +68,7 @@ export default function StudentInfo() {
           className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
           value={s_name}
           onChange={e => setS_name(e.target.value)}
-          placeholder="输入名字"
+          placeholder="输入姓名"
         />
         <input
           className="mr-5 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-none bg-yellow-150"
