@@ -63,7 +63,6 @@ export default function StudentInfo() {
   return (
     <>
       <div className='mb-5'>
-        <button onClick={() => console.log(departments, classes)}>wqae</button>
         <p className='pl-3 mb-2'>输入姓名或学号搜索指定学生</p>
         <input
           className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
