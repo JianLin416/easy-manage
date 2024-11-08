@@ -1,5 +1,5 @@
 ### GET request to example server
-GET localhost:3000/api/student/getAllStudent
+GET localhost:3000/api/student/filtedStudents?department=管理系&page=2
 
 
 ###
