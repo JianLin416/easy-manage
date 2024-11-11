@@ -2,9 +2,9 @@
 
 开发环境
 <ul>
-  <li>ubuntu 24.04</li>
-  <li>mysql 8.0.39</li>
-  <li>node 20.18</li>
+  <li>windows 11</li>
+  <li>mysql 8.0.40</li>
+  <li>node 22.11</li>
 </ul>
 
 ## 启动项目
