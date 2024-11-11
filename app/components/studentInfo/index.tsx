@@ -176,8 +176,7 @@ export default function StudentInfo() {
               <td>{student.student_gender === 'man' ? '男' : '女'}</td>
               <td>{student.student_number}</td>
               <td>
-                <button className="mr-3.5 hover:text-red-700">操作</button>
-                <button className="hover:text-indigo-700">详情</button>
+                <button className="transition duration-300 ease-in-out hover:scale-110">详情</button>
               </td>
             </tr>
           ))}
