@@ -1,26 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/app/api/prisma"
-import {teacher} from "@prisma/client";
+import {Renamedclass} from "@prisma/client";
 
 /**
- * 通过名字查询教师信息
- * <string>teacher_name
+ * 通过班名查询班级信息
+ * <string>class_name
  *
  * 返回体
  * {
  *   status: 'error' || 'success',
  *   code: 200,
  *   data: {
- *     teachers,
+ *     classes,
  *     pagination: {
- *       totalTeachers, // 教师总数
+ *       totalClasses, // 班级总数
  *       totalPages, // 总页数
  *       currentPage: page, // 当前页
  *       limit // 单页显示量
  *     }
  *   },
- *   errors: 'no such teacher' || null,
- *   message: 'Cannot find this teacher in database' || 'Successfully find the teacher in database',
+ *   errors: 'no such class' || null,
+ *   message: 'Cannot find this class in database' || 'Successfully find the class in database',
  * }
  */
 
@@ -28,14 +28,14 @@ export async function GET(request: NextRequest) {
 
   const params = request.nextUrl.searchParams
 
-  const name = params.get('teacher_name') as string
+  const name = params.get('class_name') as string
 
-  const teachers: teacher[] = await prisma.teacher.findMany({
+  const classes: Renamedclass[] = await prisma.renamedclass.findMany({
     where: {
-      teacher_name: name
+      class_name: name
     }
   })
-  if (teachers.length < 1) {
+  if (classes.length < 1) {
     return NextResponse.json({
       status: 'error',
       code: 200,
@@ -47,8 +47,8 @@ export async function GET(request: NextRequest) {
           limit: 0
         }
       },
-      errors: 'no such teacher',
-      message: 'Cannot find this teacher in database'
+      errors: 'no such class',
+      message: 'Cannot find this class in database'
     })
   }
   else {
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       status: 'success',
       code: 200,
       data: {
-        teachers,
+        classes,
         pagination: {
           totalTeachers: 0,
           totalPages: 1,
@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
         }
       },
       errors: null,
-      message: 'Successfully find the teacher in database',
+      message: 'Successfully find the class in database',
     })
   }
 }
