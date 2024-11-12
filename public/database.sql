@@ -77,7 +77,6 @@ CREATE TABLE Teacher (
     hire_date DATE NOT NULL,
     department_name VARCHAR(20),
     FOREIGN KEY (department_name) REFERENCES Department(department_name) ON DELETE SET NULL,
-    teacher_title VARCHAR(20),
     teacher_job VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
