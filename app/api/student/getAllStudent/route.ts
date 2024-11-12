@@ -1,5 +1,5 @@
 import prisma from '@/app/api/prisma'
-import { Student } from '@prisma/client'
+import { student } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
 
 	const skip = (page - 1) * limit
 
-	const students: Student[] = await prisma.student.findMany({
+	const students: student[] = await prisma.student.findMany({
 		skip,
 		take: limit
 	})
