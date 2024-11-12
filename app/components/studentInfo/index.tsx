@@ -22,20 +22,8 @@ export default function StudentInfo() {
     const response = await axios.get(`/api/student/getAllStudent?page=${page}&limit=${limit}`)
     setStudents(response.data.data.students)
     setPagination(response.data.data.pagination)
-
-    const departments = Array.from(new Set(
-      response.data.data.students.map(
-        (student: student) => student.department_name
-      )
-    )) as string[]
-    setDepartments(departments)
-
-    const classes = Array.from(new Set(
-      response.data.data.students.map(
-        (student: student) => student.class_name
-      )
-    )) as string[]
-    setClasses(classes)
+    setDepartments(response.data.data.departments)
+    setClasses(response.data.data.classes)
   }
 
   async function getStudent(name: string, number: string) {
@@ -122,7 +110,7 @@ export default function StudentInfo() {
                 系部 ▼
               </button>
               {departmentDropdown && (
-                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-60 overflow-y-scroll">
+                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-56 overflow-y-scroll">
                   <ul>
                     {departments.map((department) => (
                       <li
@@ -144,7 +132,7 @@ export default function StudentInfo() {
                 班级 ▼
               </button>
               {classDropdown && (
-                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-60 overflow-y-scroll">
+                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-56 overflow-y-scroll">
                   <ul>
                     {classes.map((classItem) => (
                       <li
