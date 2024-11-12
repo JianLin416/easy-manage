@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Student } from '@prisma/client'
+import { student } from '@prisma/client'
 import React from 'react'
 import Pagination from '@/app/components/Pagination'
 
 export default function StudentInfo() {
 
-  const [students, setStudents] = useState<Student[]>([])
+  const [students, setStudents] = useState<student[]>([])
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPages: 0,
@@ -25,14 +25,14 @@ export default function StudentInfo() {
 
     const departments = Array.from(new Set(
       response.data.data.students.map(
-        (student: Student) => student.student_department
+        (student: student) => student.department_name
       )
     )) as string[]
     setDepartments(departments)
 
     const classes = Array.from(new Set(
       response.data.data.students.map(
-        (student: Student) => student.class_name
+        (student: student) => student.class_name
       )
     )) as string[]
     setClasses(classes)
@@ -122,7 +122,7 @@ export default function StudentInfo() {
                 系部 ▼
               </button>
               {departmentDropdown && (
-                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-24">
+                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-60 overflow-y-scroll">
                   <ul>
                     {departments.map((department) => (
                       <li
@@ -144,7 +144,7 @@ export default function StudentInfo() {
                 班级 ▼
               </button>
               {classDropdown && (
-                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-24">
+                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-60 overflow-y-scroll">
                   <ul>
                     {classes.map((classItem) => (
                       <li
@@ -169,7 +169,7 @@ export default function StudentInfo() {
         <tbody className="text-center">
           {students.map((student) => (
             <tr key={student.student_id} className="h-12">
-              <td>{student.student_department}</td>
+              <td>{student.department_name}</td>
               <td>{student.student_major}</td>
               <td>{student.class_name}</td>
               <td>{student.student_name}</td>

@@ -1,5 +1,5 @@
 import prisma from '@/app/api/prisma'
-import { Student } from '@prisma/client'
+import { student } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -34,12 +34,12 @@ export async function GET(request: NextRequest) {
 
   const skip = (page - 1) * limit
 
-  let students: Student[]
+  let students: student[]
   let totalStudents: number
   if (params.get('department') && params.get('class')) {
     students = await prisma.student.findMany({
       where: {
-        student_department: params.get('department') as string,
+        department_name: params.get('department') as string,
         class_name: params.get('class')
       },
       skip,
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
 
     totalStudents = await prisma.student.count({
       where: {
-        student_department: params.get('department') as string,
+        department_name: params.get('department') as string,
         class_name: params.get('class'),
       },
     })
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
   } else if (params.get('department')) {
     students = await prisma.student.findMany({
       where: {
-        student_department: params.get('department') as string,
+        department_name: params.get('department') as string,
       },
       skip,
       take: limit
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
 
     totalStudents = await prisma.student.count({
       where: {
-        student_department: params.get('department') as string,
+        department_name: params.get('department') as string,
       },
     })
 
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
 
     totalStudents = await prisma.student.count({
       where: {
-        student_department: params.get('class') as string,
+        department_name: params.get('class') as string,
       },
     })
 
