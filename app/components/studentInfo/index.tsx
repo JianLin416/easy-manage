@@ -44,8 +44,6 @@ export default function StudentInfo() {
     setS_name('')
   }
 
-
-
   const [departmentDropdown, setDepartmentDropdown] = useState(false);
   const [classDropdown, setClassDropdown] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
@@ -88,7 +86,7 @@ export default function StudentInfo() {
           placeholder="输入姓名"
         />
         <input
-          className="mr-5 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-none bg-yellow-150"
+          className="mr-5 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
           value={s_number}
           onChange={e => setS_number(e.target.value)}
           placeholder="输入学号"
