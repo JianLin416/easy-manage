@@ -52,7 +52,7 @@ export async function POST (request: NextRequest) {
     return NextResponse.json({
       status: "success",
       code: 200,
-      error: null,
+      errors: null,
       message: 'successfully registered'
     })
   }
