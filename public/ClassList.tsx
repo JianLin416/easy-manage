@@ -1,4 +1,4 @@
-export default function Menu({height}: {height: number}) {
+export default function ClassList({height}: {height: number}) {
   const heightPx = height.toString() + 'px';
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height={heightPx} viewBox="0 -960 960 960" width={heightPx} fill={'white'}>

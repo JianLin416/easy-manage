@@ -19,7 +19,7 @@ CREATE TABLE Department (
 -- 创建 User 表
 CREATE TABLE User (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_role ENUM('admin', 'director', 'teacher', 'guider') NOT NULL,
+    user_role ENUM('admin', 'teacher', 'guider') NOT NULL,
     department_name VARCHAR(20),
     FOREIGN KEY (department_name) REFERENCES Department(department_name) ON DELETE SET NULL,
     user_name VARCHAR(50) NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE Student (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- 创建 Teacher 表并添加系部外键
+-- 创建 TeacherList 表并添加系部外键
 CREATE TABLE Teacher (
     teacher_id INT AUTO_INCREMENT PRIMARY KEY,
     teacher_name VARCHAR(50) NOT NULL,

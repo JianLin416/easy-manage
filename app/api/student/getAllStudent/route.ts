@@ -1,6 +1,7 @@
 import prisma from '@/app/api/prisma'
 import { student } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
+import jwt from "jsonwebtoken";
 
 /**
  * 查询全部学生
@@ -26,7 +27,33 @@ import { NextRequest, NextResponse } from 'next/server'
  * }
  */
 
+const jwt_secret = process.env.JWT_SECRET as string
+
 export async function GET(request: NextRequest) {
+
+	let token: any = request.headers.get('authorization')
+
+	if (!token) {
+		return NextResponse.json({
+			status: 'error',
+			code: 200,
+			errors: 'no token',
+			message: 'no token provided, please login first',
+		})
+	}
+	token = token.split(' ')[1]
+
+	try {
+		token = jwt.verify(token, jwt_secret);
+	}
+	catch (error) {
+		return NextResponse.json({
+			status: 'error',
+			code: 200,
+			errors: 'invalid token',
+			message: 'token invalid, please login',
+		})
+	}
 
 	const params = request.nextUrl.searchParams
 
@@ -35,16 +62,66 @@ export async function GET(request: NextRequest) {
 
 	const skip = (page - 1) * limit
 
-	const students: student[] = await prisma.student.findMany({
-		skip,
-		take: limit
-	})
+	let students: student[]
+	let departments
+	let classes
+	let totalStudents
 
-	let departments = await prisma.student.findMany({
-		select: {
-			department_name: true,
-		}
-	})
+	if (token.department_name) {
+
+		students = await prisma.student.findMany({
+			where: {
+				department_name: token.department_name,
+			},
+			skip,
+			take: limit
+		})
+
+		departments = await prisma.student.findMany({
+			select: {
+				department_name: true,
+			},
+			where: {
+				department_name: token.department_name,
+			}
+		})
+
+		classes = await prisma.student.findMany({
+			select: {
+				class_name: true,
+			},
+			where: {
+				department_name: token.department_name,
+			}
+		})
+
+		totalStudents = await prisma.student.count({
+			where: {
+				department_name: token.department_name,
+			}
+		})
+	}
+	else {
+
+		students = await prisma.student.findMany({
+			skip,
+			take: limit
+		})
+
+		departments = await prisma.student.findMany({
+			where: {
+				department_name: token.department_name,
+			}
+		})
+
+		classes = await prisma.student.findMany({
+			where: {
+				department_name: token.department_name,
+			}
+		})
+
+		totalStudents = await prisma.student.count()
+	}
 
 	departments = Array.from(new Set(
 		departments.map(
@@ -52,19 +129,12 @@ export async function GET(request: NextRequest) {
 		)
 	))
 
-	let classes = await prisma.student.findMany({
-		select: {
-			class_name: true,
-		}
-	})
-
 	classes = Array.from(new Set(
 		classes.map(
 			(student: any) => student.class_name
 		)
 	))
 
-	const totalStudents = await prisma.student.count()
 	const totalPages = Math.ceil(totalStudents / limit)
 
 	return NextResponse.json({

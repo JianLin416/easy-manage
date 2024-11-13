@@ -40,7 +40,7 @@ export async function POST (request: NextRequest) {
       const jwt_secret = process.env.JWT_SECRET as string
 
       const token = jwt.sign({
-        user_name: checkResult.department_name,
+        user_name: checkResult.user_name,
         user_account: checkResult.user_account,
         user_role: checkResult.user_role,
         department_name: checkResult.department_name,
@@ -72,7 +72,7 @@ export async function POST (request: NextRequest) {
       status: 'error',
       code: 200,
       errors: 'no user',
-      message: 'on such user in database',
+      message: 'no such user in database',
     })
   }
 }

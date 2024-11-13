@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/app/api/prisma"
 import {Renamedclass} from "@prisma/client";
+import jwt from "jsonwebtoken";
 
 /**
  * 通过班名查询班级信息
@@ -24,17 +25,56 @@ import {Renamedclass} from "@prisma/client";
  * }
  */
 
+const jwt_secret = process.env.JWT_SECRET as string
+
 export async function GET(request: NextRequest) {
+
+  let token: any = request.headers.get('authorization')
+
+  if (!token) {
+    return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'no token',
+      message: 'no token provided, please login first',
+    })
+  }
+  token = token.split(' ')[1]
+
+  try {
+    token = jwt.verify(token, jwt_secret);
+  }
+  catch (error) {
+    return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'invalid token',
+      message: 'token invalid, please login',
+    })
+  }
 
   const params = request.nextUrl.searchParams
 
   const name = params.get('class_name') as string
 
-  const classes: Renamedclass[] = await prisma.renamedclass.findMany({
-    where: {
-      class_name: name
-    }
-  })
+  let classes: Renamedclass[]
+
+  if (token.department_name) {
+    classes = await prisma.renamedclass.findMany({
+      where: {
+        class_name: name,
+        department_name: token.department_name,
+      }
+    })
+  }
+  else {
+    classes = await prisma.renamedclass.findMany({
+      where: {
+        class_name: name,
+      }
+    })
+  }
+
   if (classes.length < 1) {
     return NextResponse.json({
       status: 'error',

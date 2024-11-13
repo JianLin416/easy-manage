@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from 'react'
 import { teacher } from '@prisma/client'
 import React from 'react'
@@ -17,14 +17,14 @@ export default function TeacherInfo() {
   const [departments, setDepartments] = useState([''])
 
   async function getAllTeachers(page: number = 1, limit: number = 20) {
-    const response = await axios.get(`/api/teacher/getAllTeacher?page=${page}&limit=${limit}`)
+    const response = await myAxios.get(`/api/teacher/getAllTeacher?page=${page}&limit=${limit}`)
     setTeachers(response.data.data.teachers)
     setPagination(response.data.data.pagination)
     setDepartments(response.data.data.departments)
   }
 
   async function getTeacher(name: string) {
-    const response = await axios.get(`/api/teacher/getTeacher?teacher_name=${name}`)
+    const response = await myAxios.get(`/api/teacher/getTeacher?teacher_name=${name}`)
     if (response.data.status === 'error') setTeachers([])
     else setTeachers(response.data.data.teachers)
     setPagination(response.data.data.pagination)
@@ -38,7 +38,7 @@ export default function TeacherInfo() {
   const toggleDepartmentDropdown = () => setDepartmentDropdown(!departmentDropdown);
 
   async function filteTeachers(department: string | null = null, page: number = 1, limit: number = 20) {
-    const response = await axios.get(`/api/teacher/filtedTeachers?department_name=${department}&page=${page}&limit=${limit}`)
+    const response = await myAxios.get(`/api/teacher/filtedTeachers?department_name=${department}&page=${page}&limit=${limit}`)
     if (response.data.status === 'error') setTeachers([])
     else setTeachers(response.data.data.teachers)
     setPagination(response.data.data.pagination)

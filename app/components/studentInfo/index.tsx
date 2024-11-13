@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from 'react'
 import { student } from '@prisma/client'
 import React from 'react'
@@ -17,9 +17,13 @@ export default function StudentInfo() {
   const [s_number, setS_number] = useState('')
   const [departments, setDepartments] = useState([''])
   const [classes, setClasses] = useState([''])
+  const [departmentDropdown, setDepartmentDropdown] = useState(false)
+  const [classDropdown, setClassDropdown] = useState(false)
+  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null)
+  const [selectedClass, setSelectedClass] = useState<string | null>(null)
 
   async function getAllStudents(page: number = 1, limit: number = 20) {
-    const response = await axios.get(`/api/student/getAllStudent?page=${page}&limit=${limit}`)
+    const response = await myAxios.get(`/api/student/getAllStudent?page=${page}&limit=${limit}`)
     setStudents(response.data.data.students)
     setPagination(response.data.data.pagination)
     setDepartments(response.data.data.departments)
@@ -29,13 +33,13 @@ export default function StudentInfo() {
   async function getStudent(name: string, number: string) {
     let response
     if (name && number) {
-      response = await axios.get(`/api/student/getStudent?student_name=${name}&student_number=${number}`)
+      response = await myAxios.get(`/api/student/getStudent?student_name=${name}&student_number=${number}`)
     }
     else if (name) {
-      response = await axios.get(`/api/student/getStudent?student_name=${name}`)
+      response = await myAxios.get(`/api/student/getStudent?student_name=${name}`)
     }
     else {
-      response = await axios.get(`/api/student/getStudent?student_number=${number}`)
+      response = await myAxios.get(`/api/student/getStudent?student_number=${number}`)
     }
     if (response.data.status === 'error') setStudents([])
     else setStudents(response.data.data.students)
@@ -44,11 +48,6 @@ export default function StudentInfo() {
     setS_name('')
   }
 
-  const [departmentDropdown, setDepartmentDropdown] = useState(false);
-  const [classDropdown, setClassDropdown] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
-  const [selectedClass, setSelectedClass] = useState<string | null>(null);
-
   // 切换显示/隐藏下拉菜单
   const toggleDepartmentDropdown = () => setDepartmentDropdown(!departmentDropdown);
   const toggleClassDropdown = () => setClassDropdown(!classDropdown);
@@ -56,11 +55,11 @@ export default function StudentInfo() {
   async function filteStudents(department: string | null = null, className: string | null = null, page: number = 1, limit: number = 20) {
     let response
     if (department && className) {
-      response = await axios.get(`/api/student/filtedStudents?department=${department}&class=${className}&page=${page}&limit=${limit}`)
+      response = await myAxios.get(`/api/student/filtedStudents?department=${department}&class=${className}&page=${page}&limit=${limit}`)
     } else if (department) {
-      response = await axios.get(`/api/student/filtedStudents?department=${department}&page=${page}&limit=${limit}`)
+      response = await myAxios.get(`/api/student/filtedStudents?department=${department}&page=${page}&limit=${limit}`)
     } else if (className) {
-      response = await axios.get(`/api/student/filtedStudents?class=${className}&page=${page}&limit=${limit}`)
+      response = await myAxios.get(`/api/student/filtedStudents?class=${className}&page=${page}&limit=${limit}`)
     } else return
     if (response.data.status === 'error') setStudents([])
     else setStudents(response.data.data.students)

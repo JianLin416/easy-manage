@@ -1,9 +1,9 @@
 'use client'
 
 import React, { Suspense, useState } from "react"
-import Menu from "@/public/Menu";
-import HumanList from "@/public/HumanList";
-import Teacher from "@/public/Teacher";
+import ClassList from "@/public/ClassList";
+import StudentList from "@/public/StudentList";
+import TeacherList from "@/public/TeacherList";
 
 const ClassInfo = React.lazy(() => import('./components/classInfo/index'))
 const StudentInfo = React.lazy(() => import('./components/studentInfo/index'))
@@ -36,21 +36,21 @@ export default function Page() {
     <div className='w-full flex'>
       <div onClick={() => handleClick('classInfo')} className='flex flex-col px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-sky-700 text-white transition duration-300 ease-in-out hover:scale-105'>
         <div className='mt-auto'>
-          <Menu height={70}/>
+          <ClassList height={70}/>
           <p className='mt-5'>班级查询与概览</p>
         </div>
       </div>
       <div onClick={() => handleClick('studentInfo')}
            className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl mx-5 shadow-lg cursor-pointer bg-emerald-700 text-white transition duration-300 ease-in-out hover:scale-105'>
         <div className='mt-auto'>
-          <HumanList height={70}/>
+          <StudentList height={70}/>
           <p className='mt-5'>学生查询与概览</p>
         </div>
       </div>
       <div onClick={() => handleClick('teacherInfo')}
            className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-orange-600 text-white transition duration-300 ease-in-out hover:scale-105'>
         <div className='mt-auto'>
-          <Teacher height={70}/>
+          <TeacherList height={70}/>
           <p className='mt-5'>教师查询与概览</p>
         </div>
       </div>

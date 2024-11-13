@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from 'react'
 import { Renamedclass } from '@prisma/client'
 import React from 'react'
@@ -17,14 +17,14 @@ export default function ClassInfo() {
   const [departments, setDepartments] = useState([''])
 
   async function getAllClasses(page: number = 1, limit: number = 20) {
-    const response = await axios.get(`/api/class/getAllClass?page=${page}&limit=${limit}`)
+    const response = await myAxios.get(`/api/class/getAllClass?page=${page}&limit=${limit}`)
     setRenamedClasses(response.data.data.classes)
     setPagination(response.data.data.pagination)
     setDepartments(response.data.data.departments)
   }
 
   async function getClass(name: string) {
-    const response = await axios.get(`/api/class/getClass?class_name=${name}`)
+    const response = await myAxios.get(`/api/class/getClass?class_name=${name}`)
     if (response.data.status === 'error') setRenamedClasses([])
     else setRenamedClasses(response.data.data.classes)
     setPagination(response.data.data.pagination)
@@ -38,7 +38,7 @@ export default function ClassInfo() {
   const toggleDepartmentDropdown = () => setDepartmentDropdown(!departmentDropdown);
 
   async function filtedClasses(department: string | null = null, page: number = 1, limit: number = 20) {
-    const response = await axios.get(`/api/class/filtedClasses?department_name=${department}&page=${page}&limit=${limit}`)
+    const response = await myAxios.get(`/api/class/filtedClasses?department_name=${department}&page=${page}&limit=${limit}`)
     if (response.data.status === 'error') setRenamedClasses([])
     else setRenamedClasses(response.data.data.classes)
     setPagination(response.data.data.pagination)
