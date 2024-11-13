@@ -11,21 +11,23 @@
 1. 执行./public/database.sql建表
 2. 下载依赖
    ```npm install```
-3. 配置prisma
+3. 在项目根目录配置.env文件
 ```bash
--- 首先编辑根目录下的.env文件 配置好数据库url
--- url示例: mysql://manager:123456@localhost:3306/easymanage
--- mysql://{userName}:{userPassword}@{mysql address}/easymanage
+JWT_SECRET="随便输入的字符串"
+DATABASE_URL="mysql://{userName}:{userPassword}@{mysql address}/easymanage"
+```
+4. 配置prisma
+```bash
 1. npx prisma init
 -- 更改生成的.prisma文件中的database为mysql
 2. npx prisma db pull
 3. npx prisma generate
 ```
-4. 本地调试
+5. 本地调试
    ```npm run dev```
-5. 打包
+6. 打包
    ```npm run build```
-6. 启动服务器
+7. 启动服务器
    ```npm run start```
 
 ## 项目依赖
