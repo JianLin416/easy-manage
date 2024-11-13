@@ -30,6 +30,9 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
     devDependencies:
+      '@types/jsonwebtoken':
+        specifier: ^9.0.7
+        version: 9.0.7
       '@types/node':
         specifier: ^20.17.6
         version: 20.17.6
@@ -284,6 +287,9 @@ packages:
 
   '@swc/helpers@0.5.13':
     resolution: {integrity: sha512-UoKGxQ3r5kYI9dALKJapMmuK+1zWM/H17Z1+iwnNmzcJRnfFuevZs375TA5rW31pu4BS4NoSy1fRsexDXfWn5w==}
+
+  '@types/jsonwebtoken@9.0.7':
+    resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
 
   '@types/node@20.17.6':
     resolution: {integrity: sha512-VEI7OdvK2wP7XHnsuXbAJnEpEkF6NjSN45QJlL4VGqZSXsnicpesdTWsg9RISeSdYd3yeRj/y3k5KGjUXYnFwQ==}
@@ -1056,6 +1062,10 @@ snapshots:
   '@swc/helpers@0.5.13':
     dependencies:
       tslib: 2.8.1
+
+  '@types/jsonwebtoken@9.0.7':
+    dependencies:
+      '@types/node': 20.17.6
 
   '@types/node@20.17.6':
     dependencies:
