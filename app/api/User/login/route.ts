@@ -72,7 +72,7 @@ export async function POST (request: NextRequest) {
       status: 'error',
       code: 200,
       errors: 'no user',
-      message: 'on such user in database',
+      message: 'no such user in database',
     })
   }
 }
