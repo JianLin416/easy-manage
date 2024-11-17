@@ -15,19 +15,11 @@ export default function StudentInfo() {
   })
   const [s_name, setS_name] = useState('')
   const [s_number, setS_number] = useState('')
-  const [departments, setDepartments] = useState([''])
-  const [classes, setClasses] = useState([''])
-  const [departmentDropdown, setDepartmentDropdown] = useState(false)
-  const [classDropdown, setClassDropdown] = useState(false)
-  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null)
-  const [selectedClass, setSelectedClass] = useState<string | null>(null)
 
   async function getAllStudents(page: number = 1, limit: number = 20) {
     const response = await myAxios.get(`/api/student/getAllStudent?page=${page}&limit=${limit}`)
     setStudents(response.data.data.students)
     setPagination(response.data.data.pagination)
-    setDepartments(response.data.data.departments)
-    setClasses(response.data.data.classes)
   }
 
   async function getStudent(name: string, number: string) {
@@ -48,31 +40,9 @@ export default function StudentInfo() {
     setS_name('')
   }
 
-  // 切换显示/隐藏下拉菜单
-  const toggleDepartmentDropdown = () => setDepartmentDropdown(!departmentDropdown);
-  const toggleClassDropdown = () => setClassDropdown(!classDropdown);
-
-  async function filteStudents(department: string | null = null, className: string | null = null, page: number = 1, limit: number = 20) {
-    let response
-    if (department && className) {
-      response = await myAxios.get(`/api/student/filtedStudents?department=${department}&class=${className}&page=${page}&limit=${limit}`)
-    } else if (department) {
-      response = await myAxios.get(`/api/student/filtedStudents?department=${department}&page=${page}&limit=${limit}`)
-    } else if (className) {
-      response = await myAxios.get(`/api/student/filtedStudents?class=${className}&page=${page}&limit=${limit}`)
-    } else return
-    if (response.data.status === 'error') setStudents([])
-    else setStudents(response.data.data.students)
-    setPagination(response.data.data.pagination)
-  }
-
   useEffect(() => {
     getAllStudents()
   }, [])
-
-  useEffect(() => {
-    filteStudents(selectedDepartment || '', selectedClass || '');
-  }, [selectedDepartment, selectedClass]);
 
   return (
     <>
@@ -93,58 +63,14 @@ export default function StudentInfo() {
         <button className='mr-3 text-white hover:cursor-pointer bg-amber-700 px-3 py-1 rounded-md' disabled={s_name === '' && s_number === ''} onClick={() => getStudent(s_name, s_number)}>查询</button>
         <button onClick={() => {
           getAllStudents()
-          setSelectedDepartment(null)
-          setSelectedClass(null)
-          setDepartmentDropdown(false)
-          setClassDropdown(false)
         }}>返回</button>
       </div>
       <table className="table-auto w-full mx-auto">
         <thead className="bg-yellow-100">
           <tr className="h-10">
-            <th className="relative">
-              <button onClick={toggleDepartmentDropdown} className="hover:cursor-pointer">
-                系部 ▼
-              </button>
-              {departmentDropdown && (
-                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-56 overflow-y-scroll">
-                  <ul>
-                    {departments.map((department) => (
-                      <li
-                        key={department}
-                        onClick={() => setSelectedDepartment(department)} // 点击时设置选中的department
-                        className={`rounded-md w-full cursor-pointer text-center py-2 ${selectedDepartment === department ? 'bg-amber-700 text-white' : '' // 选中时的样式
-                          }`}
-                      >
-                        {department}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </th>
+            <th>系部</th>
             <th>专业</th>
-            <th className="relative">
-              <button onClick={toggleClassDropdown} className="hover:cursor-pointer">
-                班级 ▼
-              </button>
-              {classDropdown && (
-                <div className="absolute top-full rounded-md left-0 bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-56 overflow-y-scroll">
-                  <ul>
-                    {classes.map((classItem) => (
-                      <li
-                        key={classItem}
-                        onClick={() => setSelectedClass(classItem)}
-                        className={`rounded-md w-full cursor-pointer text-center py-2 ${selectedClass === classItem ? 'bg-amber-700 text-white' : ''
-                          }`}
-                      >
-                        {classItem}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </th>
+            <th>班级</th>
             <th>姓名</th>
             <th>性别</th>
             <th>学号</th>
@@ -167,7 +93,7 @@ export default function StudentInfo() {
           ))}
         </tbody>
       </table>
-      <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} changePage={(page: number) => selectedDepartment || selectedClass ? filteStudents(selectedDepartment, selectedClass, page) : getAllStudents(page)} />
+      <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} changePage={getAllStudents} />
     </>
   )
 }

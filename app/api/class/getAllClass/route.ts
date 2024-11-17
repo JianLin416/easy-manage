@@ -13,7 +13,6 @@ import jwt from "jsonwebtoken";
  *   code: 200,
  *   data: {
  *   	 classes,
- *     departments,
  *   	 pagination: {
  *   	   totalClasses, // 班级总数
  *   	   totalPages, // 总页数
@@ -62,7 +61,6 @@ export async function GET(request: NextRequest) {
   const skip = (page - 1) * limit
 
   let classes: Renamedclass[]
-  let departments
   let totalClasses
 
   if (token.department_name) {
@@ -73,15 +71,6 @@ export async function GET(request: NextRequest) {
       },
       skip,
       take: limit
-    })
-
-    departments = await prisma.renamedclass.findMany({
-      select: {
-        department_name: true,
-      },
-      where: {
-        department_name: token.department_name,
-      },
     })
 
     totalClasses = await prisma.renamedclass.count({
@@ -97,20 +86,8 @@ export async function GET(request: NextRequest) {
       take: limit
     })
 
-    departments = await prisma.renamedclass.findMany({
-      select: {
-        department_name: true,
-      },
-    })
-
     totalClasses = await prisma.renamedclass.count()
   }
-
-  departments = Array.from(new Set(
-    departments.map(
-      (classes: any) => classes.department_name
-    )
-  ))
 
   const totalPages = Math.ceil(totalClasses / limit)
 
@@ -119,7 +96,6 @@ export async function GET(request: NextRequest) {
     code: 200,
     data: {
       classes,
-      departments,
       pagination: {
         totalClasses,
         totalPages,

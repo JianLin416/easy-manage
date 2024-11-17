@@ -12,7 +12,6 @@ import { NextRequest, NextResponse } from 'next/server'
  *   code: 200,
  *   data: {
  *   	 teachers,
- *     departments,
  *   	 pagination: {
  *   	   totalTeachers, // 教师总数
  *   	   totalPages, // 总页数
@@ -39,18 +38,6 @@ export async function GET(request: NextRequest) {
     take: limit
   })
 
-  let departments = await prisma.teacher.findMany({
-    select: {
-      department_name: true,
-    }
-  })
-
-  departments = Array.from(new Set(
-    departments.map(
-      (teacher: any) => teacher.department_name
-    )
-  ))
-
   const totalTeachers = await prisma.teacher.count()
   const totalPages = Math.ceil(totalTeachers / limit)
 
@@ -59,7 +46,6 @@ export async function GET(request: NextRequest) {
     code: 200,
     data: {
       teachers,
-      departments,
       pagination: {
         totalTeachers,
         totalPages,

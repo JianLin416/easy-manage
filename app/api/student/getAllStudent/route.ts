@@ -13,8 +13,6 @@ import jwt from "jsonwebtoken";
  *   code: 200,
  *   data: {
  *   	 students,
- *     departments,
- *     classes,
  *   	 pagination: {
  *   	   totalStudents, // 学生总数
  *   	   totalPages, // 总页数
@@ -63,8 +61,6 @@ export async function GET(request: NextRequest) {
 	const skip = (page - 1) * limit
 
 	let students: student[]
-	let departments
-	let classes
 	let totalStudents
 
 	if (token.department_name) {
@@ -75,24 +71,6 @@ export async function GET(request: NextRequest) {
 			},
 			skip,
 			take: limit
-		})
-
-		departments = await prisma.student.findMany({
-			select: {
-				department_name: true,
-			},
-			where: {
-				department_name: token.department_name,
-			}
-		})
-
-		classes = await prisma.student.findMany({
-			select: {
-				class_name: true,
-			},
-			where: {
-				department_name: token.department_name,
-			}
 		})
 
 		totalStudents = await prisma.student.count({
@@ -108,32 +86,8 @@ export async function GET(request: NextRequest) {
 			take: limit
 		})
 
-		departments = await prisma.student.findMany({
-			where: {
-				department_name: token.department_name,
-			}
-		})
-
-		classes = await prisma.student.findMany({
-			where: {
-				department_name: token.department_name,
-			}
-		})
-
 		totalStudents = await prisma.student.count()
 	}
-
-	departments = Array.from(new Set(
-		departments.map(
-			(student: any) => student.department_name
-		)
-	))
-
-	classes = Array.from(new Set(
-		classes.map(
-			(student: any) => student.class_name
-		)
-	))
 
 	const totalPages = Math.ceil(totalStudents / limit)
 
@@ -142,8 +96,6 @@ export async function GET(request: NextRequest) {
 		code: 200,
 		data: {
 			students,
-			departments,
-			classes,
 			pagination: {
 				totalStudents,
 				totalPages,

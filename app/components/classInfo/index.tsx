@@ -31,26 +31,9 @@ export default function ClassInfo() {
     setC_name('')
   }
 
-  const [departmentDropdown, setDepartmentDropdown] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
-
-  // 切换显示/隐藏下拉菜单
-  const toggleDepartmentDropdown = () => setDepartmentDropdown(!departmentDropdown);
-
-  async function filtedClasses(department: string | null = null, page: number = 1, limit: number = 20) {
-    const response = await myAxios.get(`/api/class/filtedClasses?department_name=${department}&page=${page}&limit=${limit}`)
-    if (response.data.status === 'error') setRenamedClasses([])
-    else setRenamedClasses(response.data.data.classes)
-    setPagination(response.data.data.pagination)
-  }
-
   useEffect(() => {
     getAllClasses()
   }, [])
-
-  useEffect(() => {
-    filtedClasses(selectedDepartment || '');
-  }, [selectedDepartment]);
 
   return (
     <>
@@ -65,35 +48,12 @@ export default function ClassInfo() {
         <button className='mr-3 text-white hover:cursor-pointer bg-amber-700 px-3 py-1 rounded-md' disabled={c_name === ''} onClick={() => getClass(c_name)}>查询</button>
         <button onClick={() => {
           getAllClasses()
-          setSelectedDepartment(null)
-          setDepartmentDropdown(false)
         }}>返回</button>
       </div>
       <table className="table-auto w-full mx-auto">
         <thead className="bg-yellow-100">
         <tr className="h-10">
-          <th className="relative">
-            <button onClick={toggleDepartmentDropdown} className="hover:cursor-pointer">
-              系部 ▼
-            </button>
-            {departmentDropdown && (
-              <div
-                className="absolute top-full rounded-md left-32  bg-yellow-100 text-black border shadow-lg mt-1 w-32 max-h-56 overflow-y-scroll">
-                <ul>
-                  {departments.map((department) => (
-                    <li
-                      key={department}
-                      onClick={() => setSelectedDepartment(department)} // 点击时设置选中的department
-                      className={`rounded-md w-full cursor-pointer text-center py-2 ${selectedDepartment === department ? 'bg-amber-700 text-white' : '' // 选中时的样式
-                      }`}
-                    >
-                      {department}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </th>
+          <th>系部</th>
           <th>班级</th>
           <th>人数</th>
           <th>班主任</th>
@@ -116,7 +76,7 @@ export default function ClassInfo() {
         ))}
         </tbody>
       </table>
-      <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} changePage={(page: number) => selectedDepartment ? filtedClasses(selectedDepartment, page) : getAllClasses(page)} />
+      <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} changePage={getAllClasses} />
     </>
   )
 }
