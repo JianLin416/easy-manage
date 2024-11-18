@@ -89,6 +89,8 @@ CREATE INDEX idx_teacher_department ON Teacher(department_name);
 CREATE INDEX idx_user_department ON User(department_name);
 CREATE INDEX idx_user_role ON User(user_role);
 
+DELIMITER $$
+
 -- 插入学生后更新班级人数和系部学生人数
 CREATE TRIGGER after_student_insert
     AFTER INSERT ON Student
@@ -101,7 +103,7 @@ BEGIN
     UPDATE Department
     SET department_students = department_students + 1
     WHERE department_name = NEW.department_name;
-END;
+END$$
 
 -- 删除学生后更新班级人数和系部学生人数
 CREATE TRIGGER after_student_delete
@@ -115,7 +117,7 @@ BEGIN
     UPDATE Department
     SET department_students = department_students - 1
     WHERE department_name = OLD.department_name;
-END;
+END$$
 
 -- 插入班级后更新系部班级数量
 CREATE TRIGGER after_class_insert
@@ -125,9 +127,9 @@ BEGIN
     UPDATE Department
     SET department_classes = department_classes + 1
     WHERE department_name = NEW.department_name;
-END;
+END$$
 
--- 删除班级后更新系
+-- 删除班级后更新系部班级数量
 CREATE TRIGGER after_class_delete
     AFTER DELETE ON Class
     FOR EACH ROW
@@ -135,4 +137,7 @@ BEGIN
     UPDATE Department
     SET department_classes = department_classes - 1
     WHERE department_name = OLD.department_name;
-END;
+END$$
+
+DELIMITER ;
+

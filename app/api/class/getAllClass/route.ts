@@ -1,5 +1,5 @@
 import prisma from '@/app/api/prisma'
-import { Renamedclass } from '@prisma/client'
+import { Class } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from "jsonwebtoken";
 
@@ -60,12 +60,12 @@ export async function GET(request: NextRequest) {
 
   const skip = (page - 1) * limit
 
-  let classes: Renamedclass[]
+  let classes: Class[]
   let totalClasses
 
   if (token.department_name) {
 
-    classes = await prisma.renamedclass.findMany({
+    classes = await prisma.class.findMany({
       where: {
         department_name: token.department_name,
       },
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
       take: limit
     })
 
-    totalClasses = await prisma.renamedclass.count({
+    totalClasses = await prisma.class.count({
       where: {
         department_name: token.department_name,
       },
@@ -81,12 +81,12 @@ export async function GET(request: NextRequest) {
   }
   else {
 
-    classes = await prisma.renamedclass.findMany({
+    classes = await prisma.class.findMany({
       skip,
       take: limit
     })
 
-    totalClasses = await prisma.renamedclass.count()
+    totalClasses = await prisma.class.count()
   }
 
   const totalPages = Math.ceil(totalClasses / limit)

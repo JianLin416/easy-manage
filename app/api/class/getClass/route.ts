@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/app/api/prisma"
-import {Renamedclass} from "@prisma/client";
+import { Class } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
 /**
@@ -57,10 +57,10 @@ export async function GET(request: NextRequest) {
 
   const name = params.get('class_name') as string
 
-  let classes: Renamedclass[]
+  let classes: Class[]
 
   if (token.department_name) {
-    classes = await prisma.renamedclass.findMany({
+    classes = await prisma.class.findMany({
       where: {
         class_name: name,
         department_name: token.department_name,
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
     })
   }
   else {
-    classes = await prisma.renamedclass.findMany({
+    classes = await prisma.class.findMany({
       where: {
         class_name: name,
       }
