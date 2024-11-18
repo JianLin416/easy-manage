@@ -42,7 +42,26 @@ export default function StudentInfo() {
 
   useEffect(() => {
     getAllStudents()
+
   }, [])
+
+  type UserRole = 'admin' | 'teacher' | 'guider'
+
+  const roleMap: Record<UserRole, string> = {
+    admin: '管理员',
+    teacher: '班主任',
+    guider: '导员',
+  }
+  const [decodeToken, setDecodeToken] = useState<{ user_role: UserRole; user_name: string } | null>(null)
+
+  useEffect(() => {
+    async function getUserInfo() {
+      const response = await myAxios.post('/api/user/getInfo', {})
+      setDecodeToken(response.data.data)
+    }
+    getUserInfo()
+  }, [])
+
 
   return (
     <>
@@ -88,8 +107,13 @@ export default function StudentInfo() {
               <td>{student.student_number}</td>
               <td>
                 <button className="transition duration-300 ease-in-out hover:scale-110">详情</button>
-              </td>
-            </tr>
+              {decodeToken.user_role === 'admin' || decodeToken?.user_role === 'teacher' ? (
+        				<button className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
+    					) : (
+      					null	    		
+							)}
+							</td>
+			  		</tr>
           ))}
         </tbody>
       </table>
