@@ -1,4 +1,4 @@
-export default function Major(height: number) {
+export default function Major({ height }: { height: number }) {
 	const heightPx = height.toString() + 'px'
 
 	return (

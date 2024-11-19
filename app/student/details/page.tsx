@@ -5,6 +5,7 @@ import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from "react"
 import { Student } from "@prisma/client"
 import moment from 'moment'
+import DetailPage from "@/public/icons/DetailPage"
 
 export default function Details() {
 
@@ -26,6 +27,8 @@ export default function Details() {
 		<div
     	className="p-5 overflow-y-scroll rounded-xl w-8/12 h-4/6 z-20 bg-yellow-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
+			<DetailPage height={100} />
+			<h1>{student? student.student_name : 'Loading...'}</h1>
 		  <div className='flex flex-col'>
 		    <p>card: {student ? student.student_card : "Loading..."}</p>
 				<p>name: {student ? student.student_name : 'Loading...'}</p>

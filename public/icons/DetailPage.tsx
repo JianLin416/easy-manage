@@ -1,4 +1,4 @@
-export default function DetailPage(height: number) {
+export default function DetailPage({ height }: { height: number }) {
 	const heightPx = height.toString() + 'px'
 
 	return (

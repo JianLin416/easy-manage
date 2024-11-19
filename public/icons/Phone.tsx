@@ -1,4 +1,4 @@
-export default function Phone(height: number) {
+export default function Phone({ height }: { height: number }) {
 	const heightPx = height.toString() + 'px'
 
 	return (

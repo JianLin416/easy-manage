@@ -1,4 +1,4 @@
-export default function IdCard(height: number) {
+export default function IdCard({ height }: { height: number }) {
 	const heightPx = height.toString() + 'px'
 
 	return (

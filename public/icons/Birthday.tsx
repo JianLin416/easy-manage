@@ -1,4 +1,4 @@
-export function Birthday(height: number) {
+export function Birthday({ height }: { height: number }) {
 	const heightPx = height.toString() + 'px'
 
 	return (

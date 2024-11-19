@@ -1,4 +1,4 @@
-export default function Home(height: number) {
+export default function Home({ height }: { height: number }) {
 	const heightPx = height.toString() + 'px'
 
 	return (
