@@ -28,8 +28,20 @@ export default function Page() {
 
   // 点击按钮时更新点击的组件并显示窗口
   function handleClick(type: any) {
-    setClicked(type)
-    setIsOpen(true)
+    if (localStorage.getItem('token')) {
+			function handleClick (type: any) {
+				setClicked(type)
+				setIsOpen(true)
+			}
+
+			handleClick(type)
+		}
+
+		else {
+			function handleClick (type: any) {
+				return
+			}
+		}
   }
 
   return (
