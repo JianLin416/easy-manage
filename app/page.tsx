@@ -1,9 +1,9 @@
 'use client'
 
 import React, { Suspense, useState } from "react"
-import ClassList from "@/public/ClassList";
-import StudentList from "@/public/StudentList";
-import TeacherList from "@/public/TeacherList";
+import ClassList from "@/public/icons/ClassList";
+import StudentList from "@/public/icons/StudentList";
+import TeacherList from "@/public/icons/TeacherList";
 
 const ClassInfo = React.lazy(() => import('./components/classInfo/index'))
 const StudentInfo = React.lazy(() => import('./components/studentInfo/index'))
