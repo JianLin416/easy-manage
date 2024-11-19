@@ -36,6 +36,7 @@ DATABASE_URL="mysql://{userName}:{userPassword}@{mysql address}/easymanage"
   1. tailwind
   2. prisma
   3. axios
+  4. moment
 ```
 
 ## 项目概览
