@@ -1,4 +1,4 @@
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/api/prisma";
 import jwt from 'jsonwebtoken';
 
@@ -23,7 +23,7 @@ interface loginUser {
   user_password: string,
 }
 
-export async function POST (request: NextRequest) {
+export async function POST(request: NextRequest) {
 
   let user: loginUser = await request.json();
 
@@ -46,7 +46,7 @@ export async function POST (request: NextRequest) {
         department_name: checkResult.department_name,
       }, jwt_secret, {
         expiresIn: "1d"
-        }
+      }
       )
 
       return NextResponse.json({

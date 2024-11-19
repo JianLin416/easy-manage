@@ -29,40 +29,40 @@ export default function Page() {
   // 点击按钮时更新点击的组件并显示窗口
   function handleClick(type: any) {
     if (localStorage.getItem('token')) {
-			function handleClick (type: any) {
-				setClicked(type)
-				setIsOpen(true)
-			}
+      function handleClick(type: any) {
+        setClicked(type)
+        setIsOpen(true)
+      }
 
-			handleClick(type)
-		}
+      handleClick(type)
+    }
 
-		else {
-			function handleClick (type: any) {
-				return
-			}
-		}
+    else {
+      function handleClick(type: any) {
+        return
+      }
+    }
   }
 
   return (
     <div className='w-full flex'>
       <div onClick={() => handleClick('classInfo')} className='flex flex-col px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-sky-700 text-white transition duration-300 ease-in-out hover:scale-105'>
         <div className='mt-auto'>
-          <ClassList height={70}/>
+          <ClassList height={70} />
           <p className='mt-5'>班级查询与概览</p>
         </div>
       </div>
       <div onClick={() => handleClick('studentInfo')}
-           className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl mx-5 shadow-lg cursor-pointer bg-emerald-700 text-white transition duration-300 ease-in-out hover:scale-105'>
+        className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl mx-5 shadow-lg cursor-pointer bg-emerald-700 text-white transition duration-300 ease-in-out hover:scale-105'>
         <div className='mt-auto'>
-          <StudentList height={70}/>
+          <StudentList height={70} />
           <p className='mt-5'>学生查询与概览</p>
         </div>
       </div>
       <div onClick={() => handleClick('teacherInfo')}
-           className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-orange-600 text-white transition duration-300 ease-in-out hover:scale-105'>
+        className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-orange-600 text-white transition duration-300 ease-in-out hover:scale-105'>
         <div className='mt-auto'>
-          <TeacherList height={70}/>
+          <TeacherList height={70} />
           <p className='mt-5'>教师查询与概览</p>
         </div>
       </div>

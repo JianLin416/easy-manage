@@ -31,7 +31,7 @@ export default function ClassInfo() {
     setC_name('')
   }
 
-	type UserRole = 'admin' | 'teacher' | 'guider'
+  type UserRole = 'admin' | 'teacher' | 'guider'
 
   const roleMap: Record<UserRole, string> = {
     admin: '管理员',
@@ -42,7 +42,7 @@ export default function ClassInfo() {
 
   useEffect(() => {
     getAllClasses()
-		async function getUserInfo() {
+    async function getUserInfo() {
       const response = await myAxios.post('/api/user/getInfo', {})
       setDecodeToken(response.data.data)
     }
@@ -66,31 +66,31 @@ export default function ClassInfo() {
       </div>
       <table className="table-auto w-full mx-auto">
         <thead className="bg-yellow-100">
-        <tr className="h-10">
-          <th>系部</th>
-          <th>班级</th>
-          <th>人数</th>
-          <th>班主任</th>
-          <th>辅导员</th>
-          <th></th>
-        </tr>
+          <tr className="h-10">
+            <th>系部</th>
+            <th>班级</th>
+            <th>人数</th>
+            <th>班主任</th>
+            <th>辅导员</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody className="text-center">
-        {renamedClasses.map((classes) => (
-          <tr key={classes.class_id} className="h-12">
-            <td>{classes.department_name}</td>
-            <td>{classes.class_name}</td>
-            <td>{classes.class_students}</td>
-            <td>{classes.class_master}</td>
-            <td>{classes.class_guider}</td>
-            <td>
-              <button className="transition duration-300 ease-in-out hover:scale-110">详情</button>
-            	{decodeToken.user_role === 'admin' || decodeToken?.user_role === 'teacher' ? (
-        				<button className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
-    					) : null}
-						</td>
-          </tr>
-        ))}
+          {renamedClasses.map((classes) => (
+            <tr key={classes.class_id} className="h-12">
+              <td>{classes.department_name}</td>
+              <td>{classes.class_name}</td>
+              <td>{classes.class_students}</td>
+              <td>{classes.class_master}</td>
+              <td>{classes.class_guider}</td>
+              <td>
+                <button className="transition duration-300 ease-in-out hover:scale-110">详情</button>
+                {decodeToken.user_role === 'admin' || decodeToken?.user_role === 'teacher' ? (
+                  <button className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
+                ) : null}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} changePage={getAllClasses} />

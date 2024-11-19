@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/app/api/prisma"
-import {teacher} from "@prisma/client";
+import { teacher } from "@prisma/client";
 
 /**
  * 通过名字查询教师信息

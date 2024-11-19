@@ -1,4 +1,4 @@
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/api/prisma";
 import type { user_user_role } from "@prisma/client";
 
@@ -28,7 +28,7 @@ interface registerUser {
   user_password: string
 }
 
-export async function POST (request: NextRequest) {
+export async function POST(request: NextRequest) {
 
   let user: registerUser = await request.json();
 

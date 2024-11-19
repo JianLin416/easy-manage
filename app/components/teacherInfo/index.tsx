@@ -14,13 +14,11 @@ export default function TeacherInfo() {
     limit: 0
   })
   const [t_name, setT_name] = useState('')
-  const [departments, setDepartments] = useState([''])
 
   async function getAllTeachers(page: number = 1, limit: number = 20) {
     const response = await myAxios.get(`/api/teacher/getAllTeacher?page=${page}&limit=${limit}`)
     setTeachers(response.data.data.teachers)
     setPagination(response.data.data.pagination)
-    setDepartments(response.data.data.departments)
   }
 
   async function getTeacher(name: string) {
@@ -31,7 +29,7 @@ export default function TeacherInfo() {
     setT_name('')
   }
 
-	type UserRole = 'admin' | 'teacher' | 'guider'
+  type UserRole = 'admin' | 'teacher' | 'guider'
 
   const roleMap: Record<UserRole, string> = {
     admin: '管理员',
@@ -42,7 +40,7 @@ export default function TeacherInfo() {
 
   useEffect(() => {
     getAllTeachers()
-		async function getUserInfo() {
+    async function getUserInfo() {
       const response = await myAxios.post('/api/user/getInfo', {})
       setDecodeToken(response.data.data)
     }
@@ -84,9 +82,9 @@ export default function TeacherInfo() {
               <td>{teacher.teacher_job}</td>
               <td>
                 <button className="transition duration-300 ease-in-out hover:scale-110">详情</button>
-								{decodeToken.user_role === 'admin' ? (
-        					<button className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
-    						) : null}
+                {decodeToken.user_role === 'admin' ? (
+                  <button className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
+                ) : null}
               </td>
             </tr>
           ))}

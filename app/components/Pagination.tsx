@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Pagination ({
+export default function Pagination({
   currentPage,
   totalPages,
   changePage,

@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -58,7 +58,7 @@ export default function Login() {
 
   useEffect(() => {
     if (localStorage.getItem('token')) router.push("/");
-  },[])
+  }, [])
 
   return (
     <>
@@ -66,7 +66,7 @@ export default function Login() {
 
       {/* 登录表单 */}
       <div className="z-20 flex flex-col items-center justify-center mx-auto w-96 shadow-lg bg-yellow-50 rounded-md py-5"
-           style={{ marginTop: "15vh" }}>
+        style={{ marginTop: "15vh" }}>
         <h1 className='text-3xl'>登录</h1>
         <input
           className="mt-5 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"

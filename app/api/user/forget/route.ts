@@ -22,7 +22,7 @@ interface changeUser {
   user_password: string,
 }
 
-export async function POST (request: NextRequest) {
+export async function POST(request: NextRequest) {
 
   let user: changeUser = await request.json();
 
@@ -34,29 +34,29 @@ export async function POST (request: NextRequest) {
 
   if (checkResult) {
 
-		const updateUser = await prisma.user.update({
-			where: {
-				user_account: user.user_account
-			},
-			data: {
-				user_password: user.user_password
-			}
-		})
-		
-		if (updateUser) {
-    	return NextResponse.json({
-      	status: "success",
-      	code: 200,
-      	errors: null,
-      	message: 'successfully changed',
-    	})
-		}
-		else return NextResponse.json({
-			status: 'error',
-			code: 200,
-			errors: 'database error',
-			message: 'database errors,please try again later'
-		})
+    const updateUser = await prisma.user.update({
+      where: {
+        user_account: user.user_account
+      },
+      data: {
+        user_password: user.user_password
+      }
+    })
+
+    if (updateUser) {
+      return NextResponse.json({
+        status: "success",
+        code: 200,
+        errors: null,
+        message: 'successfully changed',
+      })
+    }
+    else return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'database error',
+      message: 'database errors,please try again later'
+    })
   }
   else {
     return NextResponse.json({

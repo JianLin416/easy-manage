@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 /**
  * 通过名字或学号查询学生信息
  * <string>student_name || <string>student_number
- * 
+ *
  * 返回体
  * {
  *   status: 'error' || 'success',
