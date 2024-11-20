@@ -84,7 +84,6 @@ export default function ClassInfo() {
               <td>{classes.class_master}</td>
               <td>{classes.class_guider}</td>
               <td>
-                <button className="transition duration-300 ease-in-out hover:scale-110">详情</button>
                 {decodeToken.user_role === 'admin' || decodeToken?.user_role === 'teacher' ? (
                   <button className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
                 ) : null}
