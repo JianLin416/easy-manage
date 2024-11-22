@@ -22,7 +22,7 @@ export default function Header() {
     async function getUserInfo() {
       const token = localStorage.getItem('token')
       if (!token) {
-        if (pathname === '/') router.push('/user/login')
+        if (!pathname.startsWith('/user/')) router.push('/user/login')
         return
       }
       try {

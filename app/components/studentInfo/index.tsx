@@ -64,6 +64,10 @@ export default function StudentInfo() {
 		router.push(`/student/details?number=${number}`)
 	}
 
+	function goOperate(number: string) {
+		router.push(`/student/operate?number=${number}`)
+	}
+
   return (
     <>
       <div className='mb-5'>
@@ -112,7 +116,7 @@ export default function StudentInfo() {
 									onClick={() => goDetails(student.student_number)}
 									>详情</button>
                 {decodeToken.user_role === 'admin' || decodeToken?.user_role === 'teacher' ? (
-                  <button className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
+                  <button onClick={() => goOperate(student.student_number)} className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
                 ) : null}
               </td>
             </tr>
