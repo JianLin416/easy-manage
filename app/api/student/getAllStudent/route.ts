@@ -1,5 +1,5 @@
 import prisma from '@/app/api/prisma'
-import { student } from '@prisma/client'
+import { Student } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from "jsonwebtoken";
 
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
 	const skip = (page - 1) * limit
 
-	let students: student[]
+	let students: Student[]
 	let totalStudents
 
 	if (token.department_name) {

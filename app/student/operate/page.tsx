@@ -14,9 +14,12 @@ import Home from "@/public/icons/Home"
 import Link from "next/link"
 import Logout from "@/public/icons/Logout"
 import { useRouter } from "next/navigation"
+import jwt from "jsonwebtoken"
 
 export default function Details() {
-	
+
+	const jwt_secret = process.env.JWT_SECRET as string
+
 	const router = useRouter()
 	const searchParams = useSearchParams()
 	const number = searchParams.get('number') as string
@@ -32,14 +35,50 @@ export default function Details() {
 	const [birthday, setBirthday] = useState('')
 	const [home, setHome] = useState('')
 
-
 	async function getStudent(number: string) {
 		const response = await myAxios.get(`/api/student/getStudent?student_number=${number}`)
 		setStudent(response.data.data.students[0])
 	}
 
 	useEffect(() => {
-		getStudent(number)
+    async function getUserInfo() {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        router.push('/')
+				return
+      }
+
+			else {
+				try {
+					const decodedToken = jwt.verify(token, jwt_secret) as any
+
+					if (decodedToken.user_role === "guider") {
+						setShowMessage(true)
+						setMessage('无更改信息权限')
+					
+						setTimeout(() => {
+      				setShowMessage(false)
+							router.push('/')
+    				}, 1500)
+
+						return
+					}
+				}
+				catch (error) {
+					setShowMessage(true)
+					setMessage('无效token')
+					
+					setTimeout(() => {
+      			setShowMessage(false)
+						router.push('/')
+    			}, 1500)
+				}
+				
+				getStudent(number)
+			}
+    }
+
+    getUserInfo()
 	}, [])
 
 	async function changePhone(card: string, phone: string) {
@@ -47,14 +86,17 @@ export default function Details() {
 
 		if(response.data.status === 'success') {
 			setShowMessage(true)
+			setPhone('')
 			setMessage('成功修改')
 		}
 		else {
 			setShowMessage(true)
+			setPhone('')
 			setMessage('系统出错，请稍后再试')
 		}
 		setTimeout(() => {
       setShowMessage(false)
+			window.location.reload()
     }, 1500)
 	}
 
@@ -63,14 +105,17 @@ export default function Details() {
 
 		if(response.data.status === 'success') {
 			setShowMessage(true)
+			setDepartment('')
 			setMessage('成功修改')
 		}
 		else {
 			setShowMessage(true)
+			setDepartment('')
 			setMessage('系统出错，请稍后再试')
 		}
 		setTimeout(() => {
       setShowMessage(false)
+			window.location.reload()
     }, 1500)
 	}
 
@@ -79,14 +124,17 @@ export default function Details() {
 
 		if(response.data.status === 'success') {
 			setShowMessage(true)
-			setMessage('成功修改')
+			setStudentNumber('')
+			setMessage('成功修改，请返回主页后重新点击以继续修改')
 		}
 		else {
 			setShowMessage(true)
+			setStudentNumber('')
 			setMessage('系统出错，请稍后再试')
 		}
 		setTimeout(() => {
       setShowMessage(false)
+			router.push('/')
     }, 1500)
 	}
 
@@ -95,14 +143,17 @@ export default function Details() {
 
 		if(response.data.status === 'success') {
 			setShowMessage(true)
+			setIdcard('')
 			setMessage('成功修改')
 		}
 		else {
 			setShowMessage(true)
+			setIdcard('')
 			setMessage('系统出错，请稍后再试')
 		}
 		setTimeout(() => {
       setShowMessage(false)
+			window.location.reload()
     }, 1500)
 	}
 
@@ -111,14 +162,17 @@ export default function Details() {
 
 		if(response.data.status === 'success') {
 			setShowMessage(true)
+			setBirthday('')
 			setMessage('成功修改')
 		}
 		else {
 			setShowMessage(true)
+			setBirthday('')
 			setMessage('系统出错，请稍后再试')
 		}
 		setTimeout(() => {
       setShowMessage(false)
+			window.location.reload()
     }, 1500)
 	}
 
@@ -127,14 +181,17 @@ export default function Details() {
 
 		if(response.data.status === 'success') {
 			setShowMessage(true)
+			setHome('')
 			setMessage('成功修改')
 		}
 		else {
 			setShowMessage(true)
+			setHome('')
 			setMessage('系统出错，请稍后再试')
 		}
 		setTimeout(() => {
       setShowMessage(false)
+			window.location.reload()
     }, 1500)
 	}
 
@@ -156,7 +213,8 @@ export default function Details() {
 
 		<div
     	className="p-10 overflow-y-scroll rounded-xl w-1/2 z-20 bg-yellow-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-    >
+    	style={{minWidth: '720px'}}
+		>
 			<div className="flex items-center">
 				<h1 className="text-5xl">{student? student.student_name : 'Loading...'}</h1>
 				<p className="ml-3 self-end">{student? (student.student_gender === 'man'? '男' : '女') : 'Loading...'}</p>
