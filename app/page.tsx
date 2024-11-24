@@ -144,7 +144,7 @@ export default function Page() {
     <div className='w-full flex flex-col'>
 			<div className="w-full flex">
 				<div
-					className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-teal-700 text-white transition duration-300 ease-in-out hover:scale-105'
+					className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-fuchsia-700 text-white transition duration-300 ease-in-out hover:scale-105'
 					onClick={addClass}	
 				>
         	<div className='mt-auto w-full flex items-end'>
@@ -170,7 +170,7 @@ export default function Page() {
         	</div>
       	</div>
       	<div
-					className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-pink-600 text-white transition duration-300 ease-in-out hover:scale-105'
+					className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-pink-700 text-white transition duration-300 ease-in-out hover:scale-105'
 					onClick={addTeacher}
 				>
         	<div className='mt-auto w-full flex items-end'>
