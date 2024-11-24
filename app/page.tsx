@@ -1,9 +1,10 @@
 'use client'
 
-import React, { Suspense, useState } from "react"
+import React, { Suspense, useState, useEffect } from "react"
 import ClassList from "@/public/icons/ClassList";
 import StudentList from "@/public/icons/StudentList";
 import TeacherList from "@/public/icons/TeacherList";
+import { myAxios } from '@/app/api/axios'
 
 const ClassInfo = React.lazy(() => import('./components/classInfo/index'))
 const StudentInfo = React.lazy(() => import('./components/studentInfo/index'))
@@ -12,6 +13,10 @@ const TeacherInfo = React.lazy(() => import('./components/teacherInfo/index'))
 export default function Page() {
   const [clicked, setClicked] = useState('')  // 存储点击的按钮类型
   const [isOpen, setIsOpen] = useState(false) // 控制窗口显示
+
+	const [class_sum, setClass_sum] = useState(0)
+	const [student_sum, setStudent_sum] = useState(0)
+	const [teacher_sum, setTeacher_sum] = useState(0) 
 
   function getView() {
     switch (clicked) {
@@ -44,6 +49,27 @@ export default function Page() {
     }
   }
 
+  useEffect(() => {
+    async function getSum() {
+      const token = localStorage.getItem('token')
+      if (!token) return
+      try {
+        const response = await myAxios.get('/api/user/getSum')
+        if (response.data.status === 'error') return
+        else {
+          setClass_sum(response.data.data.class_sum)
+					setStudent_sum(response.data.data.student_sum)
+					setTeacher_sum(response.data.data.teacher_sum)
+        }
+      }
+			catch (error) {
+				return
+			}
+    }
+
+    getSum()
+  }, [])
+
   return (
     <div className='w-full flex flex-col'>
       <div className="w-full flex">
@@ -69,22 +95,28 @@ export default function Page() {
       	</div>
 			</div>
 			<div className="w-full flex mt-5">
-				<div className='flex flex-col px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-sky-700 text-white transition duration-300 ease-in-out hover:scale-105'>
-        	<div className='mt-auto'>
-          	<ClassList height={70} />
-          	<p className='mt-5'>班级查询与概览</p>
+				<div className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-teal-700 text-white transition duration-300 ease-in-out hover:scale-105'>
+        	<div className='mt-auto w-full flex items-end'>
+          	<h2 className='text-2xl'>共计</h2>
+						<span className='text-7xl ml-2'>{class_sum}</span>
+						<span className='text-2xl'>班</span>
+          	<p className='mt-5 ml-auto'>新增班级</p>
         	</div>
       	</div>
-      	<div className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl mx-5 shadow-lg cursor-pointer bg-emerald-700 text-white transition duration-300 ease-in-out hover:scale-105'>
-        	<div className='mt-auto'>
-          	<StudentList height={70} />
-          	<p className='mt-5'>学生查询与概览</p>
+      	<div className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl mx-5 shadow-lg cursor-pointer bg-violet-700 text-white transition duration-300 ease-in-out hover:scale-105'>
+        	<div className='mt-auto w-full flex items-end'>
+          	<h2 className='text-2xl'>学生共</h2>
+						<span className='text-7xl ml-2'>{student_sum}</span>
+						<span className='text-2xl'>人</span>
+          	<p className='mt-5 ml-auto'>添加学生</p>
         	</div>
       	</div>
-      	<div className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-orange-600 text-white transition duration-300 ease-in-out hover:scale-105'>
-        	<div className='mt-auto'>
-          	<TeacherList height={70} />
-          	<p className='mt-5'>教师查询与概览</p>
+      	<div className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-pink-600 text-white transition duration-300 ease-in-out hover:scale-105'>
+        	<div className='mt-auto w-full flex items-end'>
+          	<h2 className='text-2xl'>教师共</h2>
+						<span className='text-7xl ml-2'>{teacher_sum}</span>
+						<span className='text-2xl'>人</span>
+          	<p className='mt-5 ml-auto'>添加教师</p>
         	</div>
       	</div>
 			</div>

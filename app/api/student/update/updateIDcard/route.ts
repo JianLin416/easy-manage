@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 /**
  * 更新学生身份证
- * student_card指定学生 id指定新数据
+ * student_card指定学生 card指定新数据
  *
  * 返回体
  * {
@@ -55,14 +55,14 @@ export async function PUT(request: NextRequest) {
 	const params = request.nextUrl.searchParams
 
 	const student_card =params.get('student_card') as string
-	const id = params.get('id') as string
+	const card = params.get('card') as string
 
 	const response = await prisma.student.update({
 		where: {
 			student_card: student_card
 		},
 		data: {
-			student_card: id
+			student_card: card
 		}
 	})
 

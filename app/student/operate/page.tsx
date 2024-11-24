@@ -14,11 +14,8 @@ import Home from "@/public/icons/Home"
 import Link from "next/link"
 import Logout from "@/public/icons/Logout"
 import { useRouter } from "next/navigation"
-import jwt from "jsonwebtoken"
 
 export default function Details() {
-
-	const jwt_secret = process.env.JWT_SECRET as string
 
 	const router = useRouter()
 	const searchParams = useSearchParams()
@@ -48,36 +45,8 @@ export default function Details() {
 				return
       }
 
-			else {
-				try {
-					const decodedToken = jwt.verify(token, jwt_secret) as any
-
-					if (decodedToken.user_role === "guider") {
-						setShowMessage(true)
-						setMessage('无更改信息权限')
-					
-						setTimeout(() => {
-      				setShowMessage(false)
-							router.push('/')
-    				}, 1500)
-
-						return
-					}
-				}
-				catch (error) {
-					setShowMessage(true)
-					setMessage('无效token')
-					
-					setTimeout(() => {
-      			setShowMessage(false)
-						router.push('/')
-    			}, 1500)
-				}
-				
-				getStudent(number)
-			}
-    }
-
+			else getStudent(number)
+		}
     getUserInfo()
 	}, [])
 
