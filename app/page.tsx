@@ -5,6 +5,7 @@ import ClassList from "@/public/icons/ClassList";
 import StudentList from "@/public/icons/StudentList";
 import TeacherList from "@/public/icons/TeacherList";
 import { myAxios } from '@/app/api/axios'
+import { usePathname, useRouter } from "next/navigation"
 
 const ClassInfo = React.lazy(() => import('./components/classInfo/index'))
 const StudentInfo = React.lazy(() => import('./components/studentInfo/index'))
@@ -70,9 +71,119 @@ export default function Page() {
     getSum()
   }, [])
 
+	type UserRole = 'admin' | 'teacher' | 'guider'
+
+  const roleMap: Record<UserRole, string> = {
+    admin: '管理员',
+    teacher: '班主任',
+    guider: '导员',
+  }
+  const pathname = usePathname()
+  const router = useRouter()
+  const [decodeToken, setDecodeToken] = useState<{ user_role: UserRole; user_name: string } | null>(null)
+
+  useEffect(() => {
+    async function getUserInfo() {
+      try {
+        const response = await myAxios.post('/api/user/getInfo', {})
+        setDecodeToken(response.data.data)
+      } catch (error) {
+        console.error('Error fetching user info:', error)
+      }
+    }
+
+    getUserInfo()
+  }, [pathname, router])
+
+	function addClass() {
+		if(decodeToken?.user_role != 'guider') {
+			
+			function addClass() {
+				router.push('/class/addClass')
+			}
+
+			addClass()
+		} else {
+			function addClass() {
+				return
+			}
+		}
+	}
+
+	function addStudent() {
+		if(decodeToken?.user_role != 'guider') {
+			
+			function addStudent() {
+				router.push('/student/addStudent')
+			}
+
+			addStudent()
+		} else {
+			function addStudent() {
+				return
+			}
+		}
+	}
+
+	function addTeacher() {
+		if(decodeToken?.user_role != 'guider') {
+			
+			function addTeacher() {
+				router.push('/teacher/addTeacher')
+			}
+
+			addTeacher()
+		} else {
+			function addTeacher() {
+				return
+			}
+		}
+	}
+
   return (
     <div className='w-full flex flex-col'>
-      <div className="w-full flex">
+			<div className="w-full flex">
+				<div
+					className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-teal-700 text-white transition duration-300 ease-in-out hover:scale-105'
+					onClick={addClass}	
+				>
+        	<div className='mt-auto w-full flex items-end'>
+          	<h2 className='text-lg'>共计</h2>
+						<span className='text-6xl ml-2'>{class_sum}</span>
+						<span className='text-lg'>班</span>
+						{decodeToken?.user_role != 'guider' ? (
+							<p className='mt-5 ml-auto'>新增班级</p>
+						) : null}
+        	</div>
+      	</div>
+      	<div
+					className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl mx-5 shadow-lg cursor-pointer bg-violet-700 text-white transition duration-300 ease-in-out hover:scale-105'
+					onClick={addStudent}
+				>
+        	<div className='mt-auto w-full flex items-end'>
+          	<h2 className='text-lg'>学生共</h2>
+						<span className='text-6xl ml-2'>{student_sum}</span>
+						<span className='text-lg'>人</span>
+          	{decodeToken?.user_role != 'guider' ? (
+							<p className='mt-5 ml-auto'>添加学生</p>
+						) : null}
+        	</div>
+      	</div>
+      	<div
+					className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-pink-600 text-white transition duration-300 ease-in-out hover:scale-105'
+					onClick={addTeacher}
+				>
+        	<div className='mt-auto w-full flex items-end'>
+          	<h2 className='text-lg'>教师共</h2>
+						<span className='text-6xl ml-2'>{teacher_sum}</span>
+						<span className='text-lg'>人</span>
+						{decodeToken?.user_role != 'guider' ? (
+							<p className='mt-5 ml-auto'>添加教师</p>
+						) : null}
+        	</div>
+      	</div>
+			</div>
+			<div className="w-full flex mt-5">
 				<div onClick={() => handleClick('classInfo')} className='flex flex-col px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-sky-700 text-white transition duration-300 ease-in-out hover:scale-105'>
         	<div className='mt-auto'>
           	<ClassList height={70} />
@@ -91,32 +202,6 @@ export default function Page() {
         	<div className='mt-auto'>
           	<TeacherList height={70} />
           	<p className='mt-5'>教师查询与概览</p>
-        	</div>
-      	</div>
-			</div>
-			<div className="w-full flex mt-5">
-				<div className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-teal-700 text-white transition duration-300 ease-in-out hover:scale-105'>
-        	<div className='mt-auto w-full flex items-end'>
-          	<h2 className='text-2xl'>共计</h2>
-						<span className='text-7xl ml-2'>{class_sum}</span>
-						<span className='text-2xl'>班</span>
-          	<p className='mt-5 ml-auto'>新增班级</p>
-        	</div>
-      	</div>
-      	<div className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl mx-5 shadow-lg cursor-pointer bg-violet-700 text-white transition duration-300 ease-in-out hover:scale-105'>
-        	<div className='mt-auto w-full flex items-end'>
-          	<h2 className='text-2xl'>学生共</h2>
-						<span className='text-7xl ml-2'>{student_sum}</span>
-						<span className='text-2xl'>人</span>
-          	<p className='mt-5 ml-auto'>添加学生</p>
-        	</div>
-      	</div>
-      	<div className='flex px-6 py-5 rounded-lg w-1/3 h-60 text-3xl shadow-lg cursor-pointer bg-pink-600 text-white transition duration-300 ease-in-out hover:scale-105'>
-        	<div className='mt-auto w-full flex items-end'>
-          	<h2 className='text-2xl'>教师共</h2>
-						<span className='text-7xl ml-2'>{teacher_sum}</span>
-						<span className='text-2xl'>人</span>
-          	<p className='mt-5 ml-auto'>添加教师</p>
         	</div>
       	</div>
 			</div>
