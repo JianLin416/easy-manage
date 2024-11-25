@@ -55,7 +55,7 @@ export default function Page() {
       const token = localStorage.getItem('token')
       if (!token) return
       try {
-        const response = await myAxios.get('/api/user/getSum')
+        const response = await myAxios.get('/api/getInfo/getMainPageSum')
         if (response.data.status === 'error') return
         else {
           setClass_sum(response.data.data.class_sum)
@@ -85,7 +85,7 @@ export default function Page() {
   useEffect(() => {
     async function getUserInfo() {
       try {
-        const response = await myAxios.post('/api/user/getInfo', {})
+        const response = await myAxios.post('/api/getInfo/getUser', {})
         setDecodeToken(response.data.data)
       } catch (error) {
         console.error('Error fetching user info:', error)
@@ -96,7 +96,7 @@ export default function Page() {
   }, [pathname, router])
 
 	function addClass() {
-		if(decodeToken?.user_role != 'guider') {
+		if(decodeToken?.user_role === 'admin') {
 			
 			function addClass() {
 				router.push('/class/addClass')
@@ -126,7 +126,7 @@ export default function Page() {
 	}
 
 	function addTeacher() {
-		if(decodeToken?.user_role != 'guider') {
+		if(decodeToken?.user_role === 'admin') {
 			
 			function addTeacher() {
 				router.push('/teacher/addTeacher')
@@ -151,7 +151,7 @@ export default function Page() {
           	<h2 className='text-lg'>共计</h2>
 						<span className='text-6xl ml-2'>{class_sum}</span>
 						<span className='text-lg'>班</span>
-						{decodeToken?.user_role != 'guider' ? (
+						{decodeToken?.user_role === 'admin' ? (
 							<p className='mt-5 ml-auto'>新增班级</p>
 						) : null}
         	</div>
@@ -177,7 +177,7 @@ export default function Page() {
           	<h2 className='text-lg'>教师共</h2>
 						<span className='text-6xl ml-2'>{teacher_sum}</span>
 						<span className='text-lg'>人</span>
-						{decodeToken?.user_role != 'guider' ? (
+						{decodeToken?.user_role === 'admin' ? (
 							<p className='mt-5 ml-auto'>添加教师</p>
 						) : null}
         	</div>

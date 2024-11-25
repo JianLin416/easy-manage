@@ -54,7 +54,7 @@ export default function StudentInfo() {
   useEffect(() => {
     getAllStudents()
     async function getUserInfo() {
-      const response = await myAxios.post('/api/user/getInfo', {})
+      const response = await myAxios.post('/api/getInfo/getUser', {})
       setDecodeToken(response.data.data)
     }
     getUserInfo()

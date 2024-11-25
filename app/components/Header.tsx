@@ -26,7 +26,7 @@ export default function Header() {
         return
       }
       try {
-        const response = await myAxios.post('/api/user/getInfo', {})
+        const response = await myAxios.post('/api/getInfo/getUser', {})
         if (response.data.status === 'error') {
           router.push('/user/login')
         } else {

@@ -3,17 +3,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import jwt from "jsonwebtoken";
 
 /**
- * 获取班级、学生、教师总量
+ * 获取全部系部
  *
  * 返回体
  * {
  *   status: 'success',
  *   code: 200,
- *   data: {
- *   	 class_sum,
- *   	 student_sum,
- *		 teacher_sum
- *   },
+ *	 departments
  *   errors: null,
  *   message: 'Successfully get',
  * }
@@ -24,7 +20,6 @@ const jwt_secret = process.env.JWT_SECRET as string
 export async function GET(request: NextRequest) {
 
 	let token: any = request.headers.get('authorization')
-
 	if (!token) {
 		return NextResponse.json({
 			status: 'error',
@@ -34,7 +29,6 @@ export async function GET(request: NextRequest) {
 		})
 	}
 	token = token.split(' ')[1]
-
 	try {
 		token = jwt.verify(token, jwt_secret);
 	}
@@ -47,41 +41,18 @@ export async function GET(request: NextRequest) {
 		})
 	}
 
-	let class_sum
-	let student_sum
-	let teacher_sum
+	const departments = await prisma.department.findMany({
+		select: {
+			department_name: true,
+		},
+	})
 
-	if (token.department_name) {
-
-		class_sum = await prisma.class.count({
-			where: {
-				department_name: token.department_name,
-			},
-		})
-
-		student_sum = await prisma.student.count({
-			where: {
-				department_name: token.department_name,
-			},
-		})
-	}
-	else {
-
-		class_sum = await prisma.class.count()
-
-		student_sum = await prisma.student.count()
-	}
-
-	teacher_sum = await prisma.teacher.count()
+	const depNames = departments.map(department => department.department_name)
 
 	return NextResponse.json({
 		status: 'success',
 		code: 200,
-		data: {
-			class_sum: class_sum,
-			student_sum: student_sum,
-			teacher_sum: teacher_sum
-		},
+		departments: depNames,
 		errors: null,
 		message: 'Successfully get'
 	})
