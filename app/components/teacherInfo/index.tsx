@@ -1,12 +1,15 @@
 import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from 'react'
-import { teacher } from '@prisma/client'
+import { Teacher } from '@prisma/client'
 import React from 'react'
 import Pagination from '@/app/components/Pagination'
+import { useRouter } from 'next/navigation'
 
 export default function TeacherInfo() {
 
-  const [teachers, setTeachers] = useState<teacher[]>([])
+	const router = useRouter()
+
+  const [teachers, setTeachers] = useState<Teacher[]>([])
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPages: 0,
@@ -47,6 +50,13 @@ export default function TeacherInfo() {
     getUserInfo()
   }, [])
 
+	function goDetails(id: number) {
+		router.push(`/teacher/details?id=${id}`)
+	}
+
+	function goOperate(id: number) {
+		router.push(`/teacher/operate?id=${id}`)
+	}
 
   return (
     <>
@@ -81,9 +91,19 @@ export default function TeacherInfo() {
               <td>{teacher.teacher_gender === 'man' ? '男' : '女'}</td>
               <td>{teacher.teacher_job}</td>
               <td>
-                <button className="transition duration-300 ease-in-out hover:scale-110">详情</button>
+                <button
+									className="transition duration-300 ease-in-out hover:scale-110"
+									onClick={() => goDetails(teacher.teacher_id)}
+								>
+									详情
+								</button>
                 {decodeToken.user_role === 'admin' ? (
-                  <button className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
+                  <button
+										className="ml-10 transition duration-300 ease-in-out hover:scale-110"
+										onClick={() => goOperate(teacher.teacher_id)}
+									>
+										操作
+									</button>
                 ) : null}
               </td>
             </tr>

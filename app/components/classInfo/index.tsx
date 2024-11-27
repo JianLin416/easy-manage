@@ -84,7 +84,7 @@ export default function ClassInfo() {
               <td>{classes.class_master}</td>
               <td>{classes.class_guider}</td>
               <td>
-                {decodeToken.user_role === 'admin' || decodeToken?.user_role === 'teacher' ? (
+                {decodeToken.user_role === 'admin' ? (
                   <button
 										className="ml-10 transition duration-300 ease-in-out hover:scale-110"
 										onClick={() => goOperate(classes.class_name)}
