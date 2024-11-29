@@ -14,10 +14,16 @@ import Home from "@/public/icons/Home"
 import Link from "next/link"
 import Logout from "@/public/icons/Logout"
 import { useRouter } from "next/navigation"
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 
 export default function Details() {
+
+	type UserRole = 'admin' | 'teacher' | 'guider'
+
+  const roleMap: Record<UserRole, string> = {
+    admin: '管理员',
+    teacher: '班主任',
+    guider: '辅导员',
+  }
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -35,13 +41,22 @@ export default function Details() {
   const [birthday, setBirthday] = useState('')
   const [home, setHome] = useState('')
 
+	const [allDeps, setAllDeps] = useState<string[]>([])
+
   async function getTeacher(id: string) {
     const response = await myAxios.get(`/api/teacher/update/getTeacherInfo?id=${id}`)
     setTeacher(response.data.teacher)
   }
 
+	async function getDepartments() {
+		const response = await myAxios.get(`/api/getInfo/getDepartment`)
+
+		setAllDeps(response.data.departments)
+	}
+
   useEffect(() => {
     getTeacher(number)
+		getDepartments()
   }, [])
 
   async function changePhone(id: number, phone: string) {
@@ -64,7 +79,7 @@ export default function Details() {
   }
 
   async function changeJob(id: number, job: string) {
-    const response = await myAxios.put(`/api/teacher/update/updatePhone?id=${id}&job=${job}`)
+    const response = await myAxios.put(`/api/teacher/update/updateJob?id=${id}&job=${job}`)
 
     if (response.data.status === 'success') {
       setShowMessage(true)
@@ -191,6 +206,14 @@ export default function Details() {
     }
   }
 
+	function selectDep(e: any) {
+		setDepartment(e.target.value)
+	}
+
+	function selectJob(e: any) {
+		setJob(e.target.value)
+	}
+
   return (
     <div
       className="p-10 overflow-y-scroll rounded-xl w-1/2 z-20 bg-yellow-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -216,12 +239,15 @@ export default function Details() {
           </div>
           <p>{teacher ? teacher.department_name : 'Loading...'}</p>
           <div>
-            <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-              placeholder="在此输入修改"
-              value={department}
-              onChange={e => setDepartment(e.target.value)}
-            />
+						<select
+							onClick={selectDep}
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+						>
+							<option value="">请选择系部</option>
+							{allDeps.map((deps) => (
+								<option key={deps} value={deps}>{deps}</option>
+							))}
+						</select>
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
               onClick={() => { changeDepartment(teacher?.teacher_id as number, department) }}
@@ -236,14 +262,17 @@ export default function Details() {
             <Home height={30} />
             <p className="ml-3">职位</p>
           </div>
-          <p>{teacher ? teacher.teacher_job : 'Loading...'}</p>
+          <p>{teacher ? roleMap[teacher.teacher_job] : 'Loading...'}</p>
           <div>
-            <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-              placeholder="在此输入修改"
-              value={job}
-              onChange={e => setJob(e.target.value)}
-            />
+						<select
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+							onClick={selectJob}
+						>
+							<option value="">请选择职位</option>
+							<option value="admin">管理员</option>
+							<option value="teacher">班主任</option>
+							<option value="guider">辅导员</option>
+						</select>	
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
               onClick={() => { changeJob(teacher?.teacher_id as number, job) }}
@@ -260,15 +289,17 @@ export default function Details() {
           </div>
           <p>{teacher ? moment(teacher.hire_date).format('YYYY-MM-DD') : 'Loading...'}</p>
           <div>
-
-						<DatePicker
-							selected={hire ? new Date(hire) : null}
-							onChange={(date) => setHire(moment(date).format('YYYY-MM-DD'))}
-							className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-							dateFormat='YYYY-MM-DD'
-							placeholderText='请选择更改时间'
-						/>
-
+						<input
+              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+              placeholder="YYYY-MM-DD"
+              value={hire}
+              onChange={e => {
+						    const value = e.target.value;
+						    if (/^\d{0,4}(-\d{0,2}(-\d{0,2})?)?$/.test(value)) {
+						      setHire(value); // 只有符合格式的内容才更新
+						    }
+						  }}
+            />
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
               onClick={() => { changeHire(teacher?.teacher_id as number, hire) }}
@@ -286,7 +317,7 @@ export default function Details() {
           <p>{teacher ? teacher.teacher_card : "Loading..."}</p>
           <div>
             <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
               placeholder="在此输入修改"
               value={idcard}
               onChange={e => setIdcard(e.target.value)}
@@ -308,7 +339,7 @@ export default function Details() {
           <p>{teacher ? teacher.teacher_phone : 'Loading...'}</p>
           <div>
             <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
               placeholder="在此输入修改"
               value={phone}
               onChange={e => setPhone(e.target.value)}
@@ -330,10 +361,15 @@ export default function Details() {
           <p>{teacher ? moment(teacher.teacher_birth).format('YYYY-MM-DD') : 'Loading...'}</p>
           <div>
             <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-              placeholder="在此输入修改"
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+              placeholder="YYYY-MM-DD"
               value={birthday}
-              onChange={e => setBirthday(e.target.value)}
+              onChange={e => {
+    						const value = e.target.value;
+    						if (/^\d{0,4}(-\d{0,2}(-\d{0,2})?)?$/.test(value)) {
+      						setBirthday(value)
+    						}
+  						}}
             />
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
@@ -352,10 +388,10 @@ export default function Details() {
           <p>{teacher ? teacher.teacher_home : 'Loading...'}</p>
           <div>
             <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
               placeholder="在此输入修改"
               value={home}
-              onChange={e => setHome(e.target.value)}
+							onChange={e => setHome(e.target.value)}
             />
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"

@@ -1,24 +1,24 @@
 import prisma from '@/app/api/prisma'
 import { NextRequest, NextResponse } from 'next/server'
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"
 
 /**
- * 更新学生住址
- * student_card指定学生 home指定新数据
+ * 删除指定班级
+ * name指定班级
  *
  * 返回体
  * {
  *   status: 'success',
  *   code: 200,
  *   errors: null,
- *   message: 'Successfully update',
+ *   message: 'Successfully removed',
  * }
  */
 
 const jwt_secret = process.env.JWT_SECRET as string
 
-export async function PUT(request: NextRequest) {
-
+export async function DELETE(request: NextRequest) {
+	
 	let token: any = request.headers.get('authorization')
 
 	if (!token) {
@@ -54,16 +54,12 @@ export async function PUT(request: NextRequest) {
 
 	const params = request.nextUrl.searchParams
 
-	const student_card = params.get('student_card') as string
-	const home = params.get('home') as string
+	const name = params.get('name') as string
 
-	const response = await prisma.student.update({
+	const response = await prisma.class.delete({
 		where: {
-			student_card: student_card
+			class_name: name
 		},
-		data: {
-			student_home: home
-		}
 	})
 
 	if (response) {
@@ -84,5 +80,3 @@ export async function PUT(request: NextRequest) {
 		})
 	}
 }
-
-

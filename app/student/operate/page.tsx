@@ -31,10 +31,19 @@ export default function Details() {
 	const [idcard, setIdcard] = useState('')
 	const [birthday, setBirthday] = useState('')
 	const [home, setHome] = useState('')
+	const [major, setMajor] = useState('')
 
 	async function getStudent(number: string) {
 		const response = await myAxios.get(`/api/student/getStudent?student_number=${number}`)
 		setStudent(response.data.data.students[0])
+	}
+
+	const [allDeps, setAllDeps] = useState<string[]>([])
+
+	async function getDepartments() {
+		const response = await myAxios.get(`/api/getInfo/getDepartment`)
+
+		setAllDeps(response.data.departments)
 	}
 
 	useEffect(() => {
@@ -48,6 +57,7 @@ export default function Details() {
 			else getStudent(number)
 		}
     getUserInfo()
+		getDepartments()
 	}, [])
 
 	async function changePhone(card: string, phone: string) {
@@ -71,6 +81,25 @@ export default function Details() {
 
 	async function changeDepartment(card: string, department: string) {
 		const response = await myAxios.put(`/api/student/update/updateDepartment?student_card=${card}&department=${department}`)
+
+		if(response.data.status === 'success') {
+			setShowMessage(true)
+			setDepartment('')
+			setMessage('成功修改')
+		}
+		else {
+			setShowMessage(true)
+			setDepartment('')
+			setMessage('系统出错，请稍后再试')
+		}
+		setTimeout(() => {
+      setShowMessage(false)
+			window.location.reload()
+    }, 1500)
+	}
+
+	async function changeMajor(card: string, major: string) {
+		const response = await myAxios.put(`/api/student/update/updateMajor?student_card=${card}&major=${major}`)
 
 		if(response.data.status === 'success') {
 			setShowMessage(true)
@@ -178,6 +207,10 @@ export default function Details() {
 		}
 	}
 
+	function selectDep(e: any) {
+		setDepartment(e.target.value)
+	}
+
 	return (
 
 		<div
@@ -205,7 +238,7 @@ export default function Details() {
 					<p>{student ? student.student_phone : 'Loading...'}</p>
 					<div>
 						<input
-							className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
 							placeholder="在此输入修改"
 							value={phone}
 							onChange={e => setPhone(e.target.value)}
@@ -224,18 +257,43 @@ export default function Details() {
 						<Major height={30} />
 						<p className="ml-3">系部</p>
 					</div>
-					<p>{student ? student.student_major : 'Loading...'}</p>
+					<p>{student ? student.department_name : 'Loading...'}</p>
 					<div>
-						<input
-							className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-							placeholder="在此输入修改"
-							value={department}
-							onChange={e => setDepartment(e.target.value)}
-						/>
+						<select
+							onClick={selectDep}
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+						>
+							<option value="">请选择系部</option>
+							{allDeps.map((deps) => (
+								<option key={deps} value={deps}>{deps}</option>
+							))}
+						</select>
 						<button
 							className="ml-1 transition duration-300 ease-in-out hover:scale-110"
 							onClick={() => {changeDepartment(student?.student_card as string, department)}}
 							disabled={department === ''}
+						>
+							修改
+						</button>	
+					</div>	
+				</div>
+				<div className="flex items-center justify-between mb-5">
+					<div className="flex items-center">
+						<Major height={30} />
+						<p className="ml-3">专业</p>
+					</div>
+					<p>{student ? student.student_major : 'Loading...'}</p>
+					<div>
+						<input
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+							placeholder="在此输入修改"
+							value={major}
+							onChange={e => setMajor(e.target.value)}
+						/>
+						<button
+							className="ml-1 transition duration-300 ease-in-out hover:scale-110"
+							onClick={() => {changeMajor(student?.student_card as string, major)}}
+							disabled={major === ''}
 						>
 							修改
 						</button>	
@@ -249,7 +307,7 @@ export default function Details() {
 					<p>{student ? student.student_number : 'Loading...'}</p>
 					<div>
 						<input
-							className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
 							placeholder="在此输入修改"
 							value={studentNumber}
 							onChange={e => setStudentNumber(e.target.value)}
@@ -271,7 +329,7 @@ export default function Details() {
 					<p>{student ? student.student_card : "Loading..."}</p>
 					<div>
 						<input
-							className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
 							placeholder="在此输入修改"
 							value={idcard}
 							onChange={e => setIdcard(e.target.value)}
@@ -293,10 +351,15 @@ export default function Details() {
 					<p>{student ? moment(student.student_birth).format('YYYY-MM-DD') : 'Loading...'}</p>
 					<div>
 						<input
-							className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-							placeholder="在此输入修改"
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+							placeholder="YYYY-MM-DD"
 							value={birthday}
-							onChange={e => setBirthday(e.target.value)}
+							onChange={e => {
+    						const value = e.target.value;
+    						if (/^\d{0,4}(-\d{0,2}(-\d{0,2})?)?$/.test(value)) {
+      						setBirthday(value)
+    						}
+  						}}
 						/>
 						<button
 							className="ml-1 transition duration-300 ease-in-out hover:scale-110"
@@ -315,7 +378,7 @@ export default function Details() {
 					<p>{student ? student.student_home : 'Loading...'}</p>
 					<div>
 						<input
-							className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
 							placeholder="在此输入修改"
 							value={home}
 							onChange={e => setHome(e.target.value)}

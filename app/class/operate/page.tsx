@@ -21,8 +21,8 @@ export default function Details() {
   const [message, setMessage] = useState('')
   const [doubleVerify, setDoubleVerify] = useState(false)
 
-	const [departments, setDepartments] = useState<string[]>([])
-	const [selectDep, setSelectDep] = useState('')
+	const [allDeps, setAllDeps] = useState<string[]>([])
+	const [department, setDepartment] = useState('')
 	const [master, setMaster] = useState('')
 	const [guider, setGuider] = useState('')
 
@@ -33,7 +33,8 @@ export default function Details() {
 
 	async function getDepartments() {
 		const response = await myAxios.get(`/api/getInfo/getDepartment`)
-		setDepartments(response.data.departments)
+
+		setAllDeps(response.data.departments)
 	}
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export default function Details() {
   }, [])
 
   async function changeDepartments(name: string, department: string) {
-    const response = await myAxios.put(`/api/class/update/updateDepartment?class_name=${name}&department=${department}`)
+    const response = await myAxios.put(`/api/class/update/updateDepartment?name=${name}&department=${department}`)
 
     if (response.data.status === 'success') {
       setShowMessage(true)
@@ -69,7 +70,7 @@ export default function Details() {
   }
 
 	async function changeMaster(name: string, master: string) {
-		const response = await myAxios.put(`/api/class/update/updateMaster?class_name=${name}&master=${master}`)
+		const response = await myAxios.put(`/api/class/update/updateMaster?name=${name}&master=${master}`)
 
     if (response.data.status === 'success') {
       setShowMessage(true)
@@ -86,7 +87,7 @@ export default function Details() {
 	}
 
 	async function changeGuider(name: string, guider: string) {
-		const response = await myAxios.put(`/api/class/update/updateGuider?class_name=${name}&guider=${guider}`)
+		const response = await myAxios.put(`/api/class/update/updateGuider?name=${name}&guider=${guider}`)
 
     if (response.data.status === 'success') {
       setShowMessage(true)
@@ -103,7 +104,7 @@ export default function Details() {
 	}
 
   async function removeClass(name: string) {
-    const response = await myAxios.delete(`/api/class/removeClass?class_name=${name}`)
+    const response = await myAxios.delete(`/api/class/removeClass?name=${name}`)
 
     if (response.data.status === 'success') {
       setShowMessage(true)
@@ -115,6 +116,10 @@ export default function Details() {
       }, 3000)
     }
   }
+
+	function selectDep(e: any) {
+		setDepartment(e.target.value)
+	}
 
   return (
 
@@ -141,16 +146,19 @@ export default function Details() {
           </div>
           <p>{myClass ? myClass.department_name : 'Loading...'}</p>
           <div>
-            <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-              placeholder="在此输入修改"
-              value={selectDep}
-              onChange={e => setSelectDep(e.target.value)}
-            />
+            <select
+							onClick={selectDep}
+							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+						>
+							<option value="">请选择系部</option>
+							{allDeps.map((deps) => (
+								<option key={deps} value={deps}>{deps}</option>
+							))}
+						</select>
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
-              onClick={() => {changeDepartments(myClass?.class_name as string, selectDep)}}
-              disabled={selectDep === ''}
+              onClick={() => {changeDepartments(myClass?.class_name as string, department)}}
+              disabled={department === ''}
             >
               修改
             </button>
@@ -164,7 +172,7 @@ export default function Details() {
           <p>{myClass ? myClass.class_master : 'Loading...'}</p>
           <div>
             <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
               placeholder="在此输入修改"
               value={master}
               onChange={e => setMaster(e.target.value)}
@@ -186,7 +194,7 @@ export default function Details() {
           <p>{myClass ? myClass.class_guider : "Loading..."}</p>
           <div>
             <input
-              className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
               placeholder="在此输入修改"
               value={guider}
               onChange={e => setGuider(e.target.value)}

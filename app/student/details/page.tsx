@@ -55,6 +55,13 @@ export default function Details() {
 						<Major height={30} />
 						<p className="ml-3">系部</p>
 					</div>
+					<p>{student ? student.department_name : 'Loading...'}</p>
+				</div>
+				<div className="flex items-center justify-between mb-5">
+					<div className="flex items-center">
+						<Major height={30} />
+						<p className="ml-3">专业</p>
+					</div>
 					<p>{student ? student.student_major : 'Loading...'}</p>
 				</div>
 				<div className="flex items-center justify-between mb-5">

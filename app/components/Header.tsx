@@ -12,7 +12,7 @@ export default function Header() {
   const roleMap: Record<UserRole, string> = {
     admin: '管理员',
     teacher: '班主任',
-    guider: '导员',
+    guider: '辅导员',
   }
   const pathname = usePathname()
   const router = useRouter()

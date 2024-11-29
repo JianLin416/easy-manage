@@ -37,7 +37,7 @@ export default function TeacherInfo() {
   const roleMap: Record<UserRole, string> = {
     admin: '管理员',
     teacher: '班主任',
-    guider: '导员',
+    guider: '辅导员',
   }
   const [decodeToken, setDecodeToken] = useState<{ user_role: UserRole; user_name: string } | null>(null)
 
@@ -89,7 +89,7 @@ export default function TeacherInfo() {
               <td>{teacher.department_name}</td>
               <td>{teacher.teacher_name}</td>
               <td>{teacher.teacher_gender === 'man' ? '男' : '女'}</td>
-              <td>{teacher.teacher_job}</td>
+              <td>{roleMap[teacher.teacher_job]}</td>
               <td>
                 <button
 									className="transition duration-300 ease-in-out hover:scale-110"

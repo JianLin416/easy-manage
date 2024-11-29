@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import jwt from "jsonwebtoken";
 
 /**
- * 更新学生住址
- * student_card指定学生 home指定新数据
+ * 更新学生专业
+ * student_card指定学生 major指定新数据
  *
  * 返回体
  * {
@@ -54,15 +54,15 @@ export async function PUT(request: NextRequest) {
 
 	const params = request.nextUrl.searchParams
 
-	const student_card = params.get('student_card') as string
-	const home = params.get('home') as string
+	const student_card =params.get('student_card') as string
+	const major = params.get('major') as string
 
 	const response = await prisma.student.update({
 		where: {
 			student_card: student_card
 		},
 		data: {
-			student_home: home
+			student_major: major
 		}
 	})
 
@@ -84,5 +84,6 @@ export async function PUT(request: NextRequest) {
 		})
 	}
 }
+
 
 
