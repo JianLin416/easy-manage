@@ -56,4 +56,4 @@ DATABASE_URL="mysql://{userName}:{userPassword}@{mysql address}/easymanage"
 | 2024.11.10 | 实现筛选系部与班级 |
 | 2024.11.12 | 完成全部的概览界面 |
 | 2024.11.15 |  完成登录鉴权   |
-
+| 2024.11.29 |  完整做好删改查   |
