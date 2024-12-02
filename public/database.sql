@@ -1,4 +1,8 @@
-use easymanage;
+DROP DATABASE IF EXISTS easymanage;
+
+CREATE DATABASE easymanage;
+
+USE easymanage;
 
 DROP TABLE IF EXISTS Class_Courses;
 DROP TABLE IF EXISTS Student;

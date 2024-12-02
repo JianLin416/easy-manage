@@ -7,6 +7,12 @@
   <li>node 22.11</li>
 </ul>
 
+项目使用jwt进行登录验证 当登录为管理员时 可以查看全部信息
+
+当登录为指定系部教师时 则只能看到对应系部的信息
+
+全部的测试账号都在test.sql文件中
+
 ## 启动项目
 1. 执行./public/database.sql建表
 2. 下载依赖
@@ -38,10 +44,6 @@ DATABASE_URL="mysql://{userName}:{userPassword}@{mysql address}/easymanage"
   3. axios
   4. moment
 ```
-
-## 项目概览
-
-待完成
 
 ## 项目进展
 
