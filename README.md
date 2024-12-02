@@ -59,3 +59,4 @@ DATABASE_URL="mysql://{userName}:{userPassword}@{mysql address}/easymanage"
 | 2024.11.12 | 完成全部的概览界面 |
 | 2024.11.15 |  完成登录鉴权   |
 | 2024.11.29 |  完整做好删改查   |
+| 2024.12.2 |  项目1.0版本完成   |
