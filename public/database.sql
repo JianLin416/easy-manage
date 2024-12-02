@@ -1,3 +1,5 @@
+use easymanage;
+
 DROP TABLE IF EXISTS Class_Courses;
 DROP TABLE IF EXISTS Student;
 DROP TABLE IF EXISTS Class;
@@ -36,7 +38,6 @@ CREATE TABLE Class (
     class_students INT DEFAULT 0 NOT NULL,
     class_master VARCHAR(20) NOT NULL,
     class_guider VARCHAR(20) NOT NULL,
-    start_date VARCHAR(10) NOT NULL,
     end_date VARCHAR(10),
     department_name VARCHAR(20),
     FOREIGN KEY (department_name) REFERENCES Department(department_name) ON DELETE SET NULL,
@@ -53,7 +54,6 @@ CREATE TABLE Student (
     student_phone VARCHAR(20),
     student_birth VARCHAR(10),
     student_home VARCHAR(100),
-    student_comes VARCHAR(50),
     student_number VARCHAR(20) NOT NULL,
     department_name VARCHAR(20),
     FOREIGN KEY (department_name) REFERENCES Department(department_name) ON DELETE SET NULL,

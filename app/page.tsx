@@ -7,9 +7,12 @@ import TeacherList from "@/public/icons/TeacherList";
 import { myAxios } from '@/app/api/axios'
 import { usePathname, useRouter } from "next/navigation"
 
-const ClassInfo = React.lazy(() => import('./components/classInfo/index'))
-const StudentInfo = React.lazy(() => import('./components/studentInfo/index'))
-const TeacherInfo = React.lazy(() => import('./components/teacherInfo/index'))
+const ClassInfo = React.lazy(() => import('./components/class/Info'))
+const StudentInfo = React.lazy(() => import('./components/student/Info'))
+const TeacherInfo = React.lazy(() => import('./components/teacher/Info'))
+const StudentAdd = React.lazy(() => import('./components/student/Add'))
+const ClassAdd = React.lazy(() => import('./components/class/Add'))
+const TeacherAdd = React.lazy(() => import('./components/teacher/Add'))
 
 export default function Page() {
   const [clicked, setClicked] = useState('')  // 存储点击的按钮类型
@@ -27,6 +30,12 @@ export default function Page() {
         return <StudentInfo />
       case 'teacherInfo':
         return <TeacherInfo />
+			case 'studentAdd':
+				return <StudentAdd />
+			case 'classAdd':
+				return <ClassAdd />
+			case 'teacherAdd':
+				return <TeacherAdd />
       default:
         return <></>
     }
@@ -73,11 +82,6 @@ export default function Page() {
 
 	type UserRole = 'admin' | 'teacher' | 'guider'
 
-  const roleMap: Record<UserRole, string> = {
-    admin: '管理员',
-    teacher: '班主任',
-    guider: '导员',
-  }
   const pathname = usePathname()
   const router = useRouter()
   const [decodeToken, setDecodeToken] = useState<{ user_role: UserRole; user_name: string } | null>(null)
@@ -99,7 +103,7 @@ export default function Page() {
 		if(decodeToken?.user_role === 'admin') {
 			
 			function addClass() {
-				router.push('/class/addClass')
+				handleClick('classAdd')
 			}
 
 			addClass()
@@ -114,7 +118,7 @@ export default function Page() {
 		if(decodeToken?.user_role != 'guider') {
 			
 			function addStudent() {
-				router.push('/student/addStudent')
+				handleClick('studentAdd')
 			}
 
 			addStudent()
@@ -129,7 +133,7 @@ export default function Page() {
 		if(decodeToken?.user_role === 'admin') {
 			
 			function addTeacher() {
-				router.push('/teacher/addTeacher')
+				handleClick('teacherAdd')
 			}
 
 			addTeacher()

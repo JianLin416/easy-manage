@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation"
 
 export default function Details() {
 
-	type UserRole = 'admin' | 'teacher' | 'guider'
+  type UserRole = 'admin' | 'teacher' | 'guider'
 
   const roleMap: Record<UserRole, string> = {
     admin: '管理员',
@@ -41,22 +41,22 @@ export default function Details() {
   const [birthday, setBirthday] = useState('')
   const [home, setHome] = useState('')
 
-	const [allDeps, setAllDeps] = useState<string[]>([])
+  const [allDeps, setAllDeps] = useState<string[]>([])
 
   async function getTeacher(id: string) {
     const response = await myAxios.get(`/api/teacher/update/getTeacherInfo?id=${id}`)
     setTeacher(response.data.teacher)
   }
 
-	async function getDepartments() {
-		const response = await myAxios.get(`/api/getInfo/getDepartment`)
+  async function getDepartments() {
+    const response = await myAxios.get(`/api/getInfo/getDepartment`)
 
-		setAllDeps(response.data.departments)
-	}
+    setAllDeps(response.data.departments)
+  }
 
   useEffect(() => {
     getTeacher(number)
-		getDepartments()
+    getDepartments()
   }, [])
 
   async function changePhone(id: number, phone: string) {
@@ -206,13 +206,13 @@ export default function Details() {
     }
   }
 
-	function selectDep(e: any) {
-		setDepartment(e.target.value)
-	}
+  function selectDep(e: any) {
+    setDepartment(e.target.value)
+  }
 
-	function selectJob(e: any) {
-		setJob(e.target.value)
-	}
+  function selectJob(e: any) {
+    setJob(e.target.value)
+  }
 
   return (
     <div
@@ -239,15 +239,15 @@ export default function Details() {
           </div>
           <p>{teacher ? teacher.department_name : 'Loading...'}</p>
           <div>
-						<select
-							onClick={selectDep}
-							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-						>
-							<option value="">请选择系部</option>
-							{allDeps.map((deps) => (
-								<option key={deps} value={deps}>{deps}</option>
-							))}
-						</select>
+            <select
+              onClick={selectDep}
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+            >
+              <option value="">请选择系部</option>
+              {allDeps.map((deps) => (
+                <option key={deps} value={deps}>{deps}</option>
+              ))}
+            </select>
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
               onClick={() => { changeDepartment(teacher?.teacher_id as number, department) }}
@@ -264,15 +264,15 @@ export default function Details() {
           </div>
           <p>{teacher ? roleMap[teacher.teacher_job] : 'Loading...'}</p>
           <div>
-						<select
-							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-							onClick={selectJob}
-						>
-							<option value="">请选择职位</option>
-							<option value="admin">管理员</option>
-							<option value="teacher">班主任</option>
-							<option value="guider">辅导员</option>
-						</select>	
+            <select
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+              onClick={selectJob}
+            >
+              <option value="">请选择职位</option>
+              <option value="admin">管理员</option>
+              <option value="teacher">班主任</option>
+              <option value="guider">辅导员</option>
+            </select>
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
               onClick={() => { changeJob(teacher?.teacher_id as number, job) }}
@@ -289,16 +289,16 @@ export default function Details() {
           </div>
           <p>{teacher ? moment(teacher.hire_date).format('YYYY-MM-DD') : 'Loading...'}</p>
           <div>
-						<input
+            <input
               className="mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
               placeholder="YYYY-MM-DD"
               value={hire}
               onChange={e => {
-						    const value = e.target.value;
-						    if (/^\d{0,4}(-\d{0,2}(-\d{0,2})?)?$/.test(value)) {
-						      setHire(value); // 只有符合格式的内容才更新
-						    }
-						  }}
+                const value = e.target.value;
+                if (/^\d{0,4}(-\d{0,2}(-\d{0,2})?)?$/.test(value)) {
+                  setHire(value); // 只有符合格式的内容才更新
+                }
+              }}
             />
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
@@ -365,11 +365,11 @@ export default function Details() {
               placeholder="YYYY-MM-DD"
               value={birthday}
               onChange={e => {
-    						const value = e.target.value;
-    						if (/^\d{0,4}(-\d{0,2}(-\d{0,2})?)?$/.test(value)) {
-      						setBirthday(value)
-    						}
-  						}}
+                const value = e.target.value;
+                if (/^\d{0,4}(-\d{0,2}(-\d{0,2})?)?$/.test(value)) {
+                  setBirthday(value)
+                }
+              }}
             />
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
@@ -391,7 +391,7 @@ export default function Details() {
               className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
               placeholder="在此输入修改"
               value={home}
-							onChange={e => setHome(e.target.value)}
+              onChange={e => setHome(e.target.value)}
             />
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
