@@ -3,7 +3,7 @@
 import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from "react"
 import moment from 'moment'
-import { Student_student_gender } from '@prisma/client'
+import { student_student_gender } from '@prisma/client'
 
 export default function Details() {
 
@@ -11,7 +11,7 @@ export default function Details() {
   const [message, setMessage] = useState('')
 
   const [name, setName] = useState('')
-  const [gender, setGender] = useState<Student_student_gender>('man')
+  const [gender, setGender] = useState<student_student_gender>('man')
   const [phone, setPhone] = useState('')
   const [department, setDepartment] = useState('')
   const [major, setMajor] = useState('')

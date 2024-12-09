@@ -2,7 +2,7 @@
 
 开发环境
 <ul>
-  <li>wsl2 ubuntu</li>
+  <li>win11</li>
   <li>mysql 8.0.40</li>
   <li>node 22.11</li>
 </ul>

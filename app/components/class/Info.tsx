@@ -1,15 +1,15 @@
 import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from 'react'
-import { Class } from '@prisma/client'
+import { Renamedclass } from '@prisma/client'
 import React from 'react'
 import Pagination from '@/app/components/Pagination'
 import { useRouter } from 'next/navigation'
 
 export default function ClassInfo() {
 
-	const router = useRouter()
+  const router = useRouter()
 
-  const [renamedClasses, setRenamedClasses] = useState<Class[]>([])
+  const [renamedClasses, setRenamedClasses] = useState<Renamedclass[]>([])
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPages: 0,
@@ -45,9 +45,9 @@ export default function ClassInfo() {
     getUserInfo()
   }, [])
 
-	function goOperate(class_name: string) {
-		router.push(`/class/operate?class_name=${class_name}`)
-	}
+  function goOperate(class_name: string) {
+    router.push(`/class/operate?class_name=${class_name}`)
+  }
 
   return (
     <>
@@ -86,9 +86,9 @@ export default function ClassInfo() {
               <td>
                 {decodeToken.user_role === 'admin' ? (
                   <button
-										className="ml-10 transition duration-300 ease-in-out hover:scale-110"
-										onClick={() => goOperate(classes.class_name)}
-									>操作</button>
+                    className="ml-10 transition duration-300 ease-in-out hover:scale-110"
+                    onClick={() => goOperate(classes.class_name)}
+                  >操作</button>
                 ) : null}
               </td>
             </tr>

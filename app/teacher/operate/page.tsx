@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation"
 import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from "react"
-import { Teacher } from "@prisma/client"
+import { teacher } from "@prisma/client"
 import moment from 'moment'
 import Major from "@/public/icons/Major"
 import StudentNumber from "@/public/icons/StudentNumber"
@@ -28,7 +28,7 @@ export default function Details() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const number = searchParams.get('id') as string
-  const [teacher, setTeacher] = useState<Teacher>()
+  const [teacher, setTeacher] = useState<teacher>()
   const [showMessage, setShowMessage] = useState(false)
   const [message, setMessage] = useState('')
   const [doubleVerify, setDoubleVerify] = useState(false)

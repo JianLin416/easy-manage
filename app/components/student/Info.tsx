@@ -1,14 +1,14 @@
 import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from 'react'
-import { Student } from '@prisma/client'
+import { student } from '@prisma/client'
 import React from 'react'
 import Pagination from '@/app/components/Pagination'
 import { useRouter } from 'next/navigation'
 
 export default function StudentInfo() {
 
-	const router = useRouter()
-  const [students, setStudents] = useState<Student[]>([])
+  const router = useRouter()
+  const [students, setStudents] = useState<student[]>([])
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPages: 0,
@@ -60,13 +60,13 @@ export default function StudentInfo() {
     getUserInfo()
   }, [])
 
-	function goDetails(number: string) {
-		router.push(`/student/details?number=${number}`)
-	}
+  function goDetails(number: string) {
+    router.push(`/student/details?number=${number}`)
+  }
 
-	function goOperate(number: string) {
-		router.push(`/student/operate?number=${number}`)
-	}
+  function goOperate(number: string) {
+    router.push(`/student/operate?number=${number}`)
+  }
 
   return (
     <>
@@ -112,9 +112,9 @@ export default function StudentInfo() {
               <td>{student.student_number}</td>
               <td>
                 <button
-									className="transition duration-300 ease-in-out hover:scale-110"
-									onClick={() => goDetails(student.student_number)}
-									>详情</button>
+                  className="transition duration-300 ease-in-out hover:scale-110"
+                  onClick={() => goDetails(student.student_number)}
+                >详情</button>
                 {decodeToken.user_role === 'admin' || decodeToken?.user_role === 'teacher' ? (
                   <button onClick={() => goOperate(student.student_number)} className="ml-10 transition duration-300 ease-in-out hover:scale-110">操作</button>
                 ) : null}

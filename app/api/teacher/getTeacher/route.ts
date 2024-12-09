@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/app/api/prisma"
-import { Teacher } from "@prisma/client";
+import { teacher } from "@prisma/client";
 
 /**
  * 通过名字查询教师信息
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
 
   const name = params.get('teacher_name') as string
 
-  const teachers: Teacher[] = await prisma.teacher.findMany({
+  const teachers: teacher[] = await prisma.teacher.findMany({
     where: {
       teacher_name: name
     }

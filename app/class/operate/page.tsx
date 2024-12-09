@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation"
 import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from "react"
-import { Class } from "@prisma/client"
+import { Renamedclass } from "@prisma/client"
 import StudentNumber from "@/public/icons/StudentNumber"
 import Phone from "@/public/icons/Phone"
 import IdCard from "@/public/icons/IdCard"
@@ -16,26 +16,26 @@ export default function Details() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const class_name = searchParams.get('class_name') as string
-  const [myClass, setMyClass] = useState<Class>()
+  const [myClass, setMyClass] = useState<Renamedclass>()
   const [showMessage, setShowMessage] = useState(false)
   const [message, setMessage] = useState('')
   const [doubleVerify, setDoubleVerify] = useState(false)
 
-	const [allDeps, setAllDeps] = useState<string[]>([])
-	const [department, setDepartment] = useState('')
-	const [master, setMaster] = useState('')
-	const [guider, setGuider] = useState('')
+  const [allDeps, setAllDeps] = useState<string[]>([])
+  const [department, setDepartment] = useState('')
+  const [master, setMaster] = useState('')
+  const [guider, setGuider] = useState('')
 
   async function getclass(class_name: string) {
     const response = await myAxios.get(`/api/class/getClass?class_name=${class_name}`)
     setMyClass(response.data.data.classes[0])
   }
 
-	async function getDepartments() {
-		const response = await myAxios.get(`/api/getInfo/getDepartment`)
+  async function getDepartments() {
+    const response = await myAxios.get(`/api/getInfo/getDepartment`)
 
-		setAllDeps(response.data.departments)
-	}
+    setAllDeps(response.data.departments)
+  }
 
   useEffect(() => {
     async function getUserInfo() {
@@ -49,7 +49,7 @@ export default function Details() {
     }
     getUserInfo()
 
-		getDepartments()
+    getDepartments()
   }, [])
 
   async function changeDepartments(name: string, department: string) {
@@ -69,8 +69,8 @@ export default function Details() {
     }, 1500)
   }
 
-	async function changeMaster(name: string, master: string) {
-		const response = await myAxios.put(`/api/class/update/updateMaster?name=${name}&master=${master}`)
+  async function changeMaster(name: string, master: string) {
+    const response = await myAxios.put(`/api/class/update/updateMaster?name=${name}&master=${master}`)
 
     if (response.data.status === 'success') {
       setShowMessage(true)
@@ -84,10 +84,10 @@ export default function Details() {
       setShowMessage(false)
       window.location.reload()
     }, 1500)
-	}
+  }
 
-	async function changeGuider(name: string, guider: string) {
-		const response = await myAxios.put(`/api/class/update/updateGuider?name=${name}&guider=${guider}`)
+  async function changeGuider(name: string, guider: string) {
+    const response = await myAxios.put(`/api/class/update/updateGuider?name=${name}&guider=${guider}`)
 
     if (response.data.status === 'success') {
       setShowMessage(true)
@@ -101,7 +101,7 @@ export default function Details() {
       setShowMessage(false)
       window.location.reload()
     }, 1500)
-	}
+  }
 
   async function removeClass(name: string) {
     const response = await myAxios.delete(`/api/class/removeClass?name=${name}`)
@@ -117,9 +117,9 @@ export default function Details() {
     }
   }
 
-	function selectDep(e: any) {
-		setDepartment(e.target.value)
-	}
+  function selectDep(e: any) {
+    setDepartment(e.target.value)
+  }
 
   return (
 
@@ -147,17 +147,17 @@ export default function Details() {
           <p>{myClass ? myClass.department_name : 'Loading...'}</p>
           <div>
             <select
-							onClick={selectDep}
-							className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
-						>
-							<option value="">请选择系部</option>
-							{allDeps.map((deps) => (
-								<option key={deps} value={deps}>{deps}</option>
-							))}
-						</select>
+              onClick={selectDep}
+              className="w-48 h-8 mr-4 px-2 py-1 rounded-md border border-gray-200 focus:outline-none shadow-lg bg-yellow-150"
+            >
+              <option value="">请选择系部</option>
+              {allDeps.map((deps) => (
+                <option key={deps} value={deps}>{deps}</option>
+              ))}
+            </select>
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
-              onClick={() => {changeDepartments(myClass?.class_name as string, department)}}
+              onClick={() => { changeDepartments(myClass?.class_name as string, department) }}
               disabled={department === ''}
             >
               修改
@@ -179,7 +179,7 @@ export default function Details() {
             />
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
-              onClick={() => {changeMaster(myClass?.class_name as string, master)}}
+              onClick={() => { changeMaster(myClass?.class_name as string, master) }}
               disabled={master === ''}
             >
               修改
@@ -201,7 +201,7 @@ export default function Details() {
             />
             <button
               className="ml-1 transition duration-300 ease-in-out hover:scale-110"
-              onClick={() => {changeGuider(myClass?.class_name as string, guider)}}
+              onClick={() => { changeGuider(myClass?.class_name as string, guider) }}
               disabled={guider === ''}
             >
               修改

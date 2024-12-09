@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Link from "next/link" 
+import Link from "next/link"
 
 export default function Forget() {
   const router = useRouter()
@@ -97,7 +97,7 @@ export default function Forget() {
           onChange={e => setRePasswd(e.target.value)}
           placeholder="再次确认密码"
         />
-				<div className="mt-5 w-52 flex items-center">
+        <div className="mt-5 w-52 flex items-center">
           <Link href={'/user/login'} className='mr-auto text-sm text-gray-500 cursor-pointer'>
             去登陆
           </Link>

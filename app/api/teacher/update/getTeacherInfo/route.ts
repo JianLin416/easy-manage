@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/app/api/prisma"
-import { Teacher } from "@prisma/client";
 
 /**
  * 通过id获取当前在查询的教师信息
@@ -21,9 +20,9 @@ export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams
 
   const id = params.get('id') as string
-	console.log(id)
-	const numberId = parseInt(id)
-	console.log(numberId)
+  console.log(id)
+  const numberId = parseInt(id)
+  console.log(numberId)
   const teacher: any = await prisma.teacher.findFirst({
     where: {
       teacher_id: numberId

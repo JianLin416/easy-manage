@@ -20,70 +20,70 @@ const jwt_secret = process.env.JWT_SECRET as string
 
 export async function PUT(request: NextRequest) {
 
-	let token: any = request.headers.get('authorization')
+  let token: any = request.headers.get('authorization')
 
-	if (!token) {
-		return NextResponse.json({
-			status: 'error',
-			code: 200,
-			errors: 'no token',
-			message: 'no token provided, please login first',
-		})
-	}
-	token = token.split(' ')[1]
+  if (!token) {
+    return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'no token',
+      message: 'no token provided, please login first',
+    })
+  }
+  token = token.split(' ')[1]
 
-	try {
-		token = jwt.verify(token, jwt_secret)
+  try {
+    token = jwt.verify(token, jwt_secret)
 
-		if (token.user_role === "guider") {
-			return NextResponse.json({
-				status: 'error',
-				code: 200,
-				errors: 'invalid role',
-				message: 'not allow guider to do this'
-			})
-		}
-	}
-	catch (error) {
-		return NextResponse.json({
-			status: 'error',
-			code: 200,
-			errors: 'invalid token',
-			message: 'token invalid, please login',
-		})
-	}
+    if (token.user_role === "guider") {
+      return NextResponse.json({
+        status: 'error',
+        code: 200,
+        errors: 'invalid role',
+        message: 'not allow guider to do this'
+      })
+    }
+  }
+  catch (error) {
+    return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'invalid token',
+      message: 'token invalid, please login',
+    })
+  }
 
-	const params = request.nextUrl.searchParams
+  const params = request.nextUrl.searchParams
 
-	const name =params.get('name') as string
-	const guider = params.get('guider') as string
+  const name = params.get('name') as string
+  const guider = params.get('guider') as string
 
-	const response = await prisma.class.update({
-		where: {
-			class_name: name
-		},
-		data: {
-			class_guider: guider
-		}
-	})
+  const response = await prisma.renamedclass.update({
+    where: {
+      class_name: name
+    },
+    data: {
+      class_guider: guider
+    }
+  })
 
-	if (response) {
-		return NextResponse.json({
-			status: 'success',
-			code: 200,
-			errors: null,
-			message: 'Successfully get'
-		})
-	}
+  if (response) {
+    return NextResponse.json({
+      status: 'success',
+      code: 200,
+      errors: null,
+      message: 'Successfully get'
+    })
+  }
 
-	else {
-		return NextResponse.json({
-			status: 'error',
-			code: 200,
-			errors: 'error',
-			message: 'Server error'
-		})
-	}
+  else {
+    return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'error',
+      message: 'Server error'
+    })
+  }
 }
 
 

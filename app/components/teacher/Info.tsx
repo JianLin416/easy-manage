@@ -1,15 +1,15 @@
 import { myAxios } from '@/app/api/axios'
 import { useEffect, useState } from 'react'
-import { Teacher } from '@prisma/client'
+import { teacher } from '@prisma/client'
 import React from 'react'
 import Pagination from '@/app/components/Pagination'
 import { useRouter } from 'next/navigation'
 
 export default function TeacherInfo() {
 
-	const router = useRouter()
+  const router = useRouter()
 
-  const [teachers, setTeachers] = useState<Teacher[]>([])
+  const [teachers, setTeachers] = useState<teacher[]>([])
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPages: 0,
@@ -50,13 +50,13 @@ export default function TeacherInfo() {
     getUserInfo()
   }, [])
 
-	function goDetails(id: number) {
-		router.push(`/teacher/details?id=${id}`)
-	}
+  function goDetails(id: number) {
+    router.push(`/teacher/details?id=${id}`)
+  }
 
-	function goOperate(id: number) {
-		router.push(`/teacher/operate?id=${id}`)
-	}
+  function goOperate(id: number) {
+    router.push(`/teacher/operate?id=${id}`)
+  }
 
   return (
     <>
@@ -92,18 +92,18 @@ export default function TeacherInfo() {
               <td>{roleMap[teacher.teacher_job]}</td>
               <td>
                 <button
-									className="transition duration-300 ease-in-out hover:scale-110"
-									onClick={() => goDetails(teacher.teacher_id)}
-								>
-									详情
-								</button>
+                  className="transition duration-300 ease-in-out hover:scale-110"
+                  onClick={() => goDetails(teacher.teacher_id)}
+                >
+                  详情
+                </button>
                 {decodeToken.user_role === 'admin' ? (
                   <button
-										className="ml-10 transition duration-300 ease-in-out hover:scale-110"
-										onClick={() => goOperate(teacher.teacher_id)}
-									>
-										操作
-									</button>
+                    className="ml-10 transition duration-300 ease-in-out hover:scale-110"
+                    onClick={() => goOperate(teacher.teacher_id)}
+                  >
+                    操作
+                  </button>
                 ) : null}
               </td>
             </tr>

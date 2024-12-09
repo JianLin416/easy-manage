@@ -18,66 +18,66 @@ import jwt from "jsonwebtoken"
 const jwt_secret = process.env.JWT_SECRET as string
 
 export async function DELETE(request: NextRequest) {
-	
-	let token: any = request.headers.get('authorization')
 
-	if (!token) {
-		return NextResponse.json({
-			status: 'error',
-			code: 200,
-			errors: 'no token',
-			message: 'no token provided, please login first',
-		})
-	}
-	token = token.split(' ')[1]
+  let token: any = request.headers.get('authorization')
 
-	try {
-		token = jwt.verify(token, jwt_secret)
+  if (!token) {
+    return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'no token',
+      message: 'no token provided, please login first',
+    })
+  }
+  token = token.split(' ')[1]
 
-		if (token.user_role === "guider") {
-			return NextResponse.json({
-				status: 'error',
-				code: 200,
-				errors: 'invalid role',
-				message: 'not allow guider to do this'
-			})
-		}
-	}
-	catch (error) {
-		return NextResponse.json({
-			status: 'error',
-			code: 200,
-			errors: 'invalid token',
-			message: 'token invalid, please login',
-		})
-	}
+  try {
+    token = jwt.verify(token, jwt_secret)
 
-	const params = request.nextUrl.searchParams
+    if (token.user_role === "guider") {
+      return NextResponse.json({
+        status: 'error',
+        code: 200,
+        errors: 'invalid role',
+        message: 'not allow guider to do this'
+      })
+    }
+  }
+  catch (error) {
+    return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'invalid token',
+      message: 'token invalid, please login',
+    })
+  }
 
-	const id = parseInt(params.get('id') as string)
+  const params = request.nextUrl.searchParams
 
-	const response = await prisma.teacher.delete({
-		where: {
-			teacher_id: id
-		},
-	})
+  const id = parseInt(params.get('id') as string)
 
-	if (response) {
-		return NextResponse.json({
-			status: 'success',
-			code: 200,
-			errors: null,
-			message: 'Successfully get'
-		})
-	}
+  const response = await prisma.teacher.delete({
+    where: {
+      teacher_id: id
+    },
+  })
 
-	else {
-		return NextResponse.json({
-			status: 'error',
-			code: 200,
-			errors: 'error',
-			message: 'Server error'
-		})
-	}
+  if (response) {
+    return NextResponse.json({
+      status: 'success',
+      code: 200,
+      errors: null,
+      message: 'Successfully get'
+    })
+  }
+
+  else {
+    return NextResponse.json({
+      status: 'error',
+      code: 200,
+      errors: 'error',
+      message: 'Server error'
+    })
+  }
 }
 

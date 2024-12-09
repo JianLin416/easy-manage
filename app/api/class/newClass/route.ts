@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json()
 
-  const response = await prisma.class.create({
+  const response = await prisma.renamedclass.create({
 
     data: {
       class_name: body.class,
