@@ -1,5 +1,5 @@
 import prisma from '@/app/api/prisma'
-import { teacher } from '@prisma/client'
+import { Teacher } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -26,34 +26,34 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
 
-  const params = request.nextUrl.searchParams
+	const params = request.nextUrl.searchParams
 
-  const page = parseInt(params.get('page') || '1')
-  const limit = parseInt(params.get('limit') || '20')
+	const page = parseInt(params.get('page') || '1')
+	const limit = parseInt(params.get('limit') || '20')
 
-  const skip = (page - 1) * limit
+	const skip = (page - 1) * limit
 
-  const teachers: teacher[] = await prisma.teacher.findMany({
-    skip,
-    take: limit
-  })
+	const teachers: Teacher[] = await prisma.teacher.findMany({
+		skip,
+		take: limit
+	})
 
-  const totalTeachers = await prisma.teacher.count()
-  const totalPages = Math.ceil(totalTeachers / limit)
+	const totalTeachers = await prisma.teacher.count()
+	const totalPages = Math.ceil(totalTeachers / limit)
 
-  return NextResponse.json({
-    status: 'success',
-    code: 200,
-    data: {
-      teachers,
-      pagination: {
-        totalTeachers,
-        totalPages,
-        currentPage: page,
-        limit
-      }
-    },
-    errors: null,
-    message: 'Successfully get'
-  })
+	return NextResponse.json({
+		status: 'success',
+		code: 200,
+		data: {
+			teachers,
+			pagination: {
+				totalTeachers,
+				totalPages,
+				currentPage: page,
+				limit
+			}
+		},
+		errors: null,
+		message: 'Successfully get'
+	})
 }

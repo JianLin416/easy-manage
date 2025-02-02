@@ -2,8 +2,7 @@
 
 开发环境
 <ul>
-  <li>win11</li>
-  <li>mysql 8.0.40</li>
+  <li>mysql 8.0.44</li>
   <li>node 22.11</li>
 </ul>
 
@@ -12,6 +11,9 @@
 当登录为指定系部教师时 则只能看到对应系部的信息
 
 全部的测试账号都在test.sql文件中
+
+### 注意事项
+使用windows部署时，prisma会将class表更改为renamedClass，student和teacher表也会被更改为全小写，注意修改代码中引入表名的部分
 
 ## 启动项目
 1. 执行./public/database.sql建表

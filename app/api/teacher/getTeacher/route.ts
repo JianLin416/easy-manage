@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/app/api/prisma"
-import { teacher } from "@prisma/client";
+import { Teacher } from "@prisma/client";
 
 /**
  * 通过名字查询教师信息
@@ -26,47 +26,47 @@ import { teacher } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
 
-  const params = request.nextUrl.searchParams
+	const params = request.nextUrl.searchParams
 
-  const name = params.get('teacher_name') as string
+	const name = params.get('teacher_name') as string
 
-  const teachers: teacher[] = await prisma.teacher.findMany({
-    where: {
-      teacher_name: name
-    }
-  })
-  if (teachers.length < 1) {
-    return NextResponse.json({
-      status: 'error',
-      code: 200,
-      data: {
-        pagination: {
-          totalTeachers: 0,
-          totalPages: 1,
-          currentPage: 1,
-          limit: 0
-        }
-      },
-      errors: 'no such teacher',
-      message: 'Cannot find this teacher in database'
-    })
-  }
-  else {
-    return NextResponse.json({
-      status: 'success',
-      code: 200,
-      data: {
-        teachers,
-        pagination: {
-          totalTeachers: 0,
-          totalPages: 1,
-          currentPage: 1,
-          limit: 0
-        }
-      },
-      errors: null,
-      message: 'Successfully find the teacher in database',
-    })
-  }
+	const teachers: Teacher[] = await prisma.teacher.findMany({
+		where: {
+			teacher_name: name
+		}
+	})
+	if (teachers.length < 1) {
+		return NextResponse.json({
+			status: 'error',
+			code: 200,
+			data: {
+				pagination: {
+					totalTeachers: 0,
+					totalPages: 1,
+					currentPage: 1,
+					limit: 0
+				}
+			},
+			errors: 'no such teacher',
+			message: 'Cannot find this teacher in database'
+		})
+	}
+	else {
+		return NextResponse.json({
+			status: 'success',
+			code: 200,
+			data: {
+				teachers,
+				pagination: {
+					totalTeachers: 0,
+					totalPages: 1,
+					currentPage: 1,
+					limit: 0
+				}
+			},
+			errors: null,
+			message: 'Successfully find the teacher in database',
+		})
+	}
 }
 
